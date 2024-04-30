@@ -28,6 +28,5 @@ def construct_folders():
     for folder in folders:
         os.makedirs(folder, exist_ok=True)
 
-    print('Folders created!')
 
 construct_folders()
