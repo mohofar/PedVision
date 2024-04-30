@@ -29,6 +29,9 @@ sam = sam_model_registry[model_type](checkpoint=sam_checkpoint)
 sam.to(device=device)
 
 predictor = SamPredictor(sam)
+
+
+
 def show_mask(mask, ax, random_color=False):
     if random_color:
         color = np.concatenate([np.random.random(3), np.array([0.6])], axis=0)
@@ -49,10 +52,12 @@ def show_box(box, ax):
     w, h = box[2] - box[0], box[3] - box[1]
     ax.add_patch(plt.Rectangle((x0, y0), w, h, edgecolor='green', facecolor=(0,0,0,0), lw=2))  
 
-def main(images_folder, results_folder, predictor):
-    # Create a grid to display the images
-    plt.figure(figsize=(10, 10))
 
+
+def main():
+    # Create a grid to display the images
+    images_folder = "PedVisionCode/ROI_samples/images/train"
+    results_folder = "PedVisionCode/ROI_samples/masks/train"
     for image_filename in os.listdir(images_folder):
         mask_filename = f"{image_filename[:-4]}_mask.png"
         if os.path.exists(os.path.join(results_folder, mask_filename)):
@@ -116,6 +121,4 @@ def main(images_folder, results_folder, predictor):
         clear_output(wait=True)
 
 if __name__ == "__main__":
-    images_folder = "ROI_samples/images/train"
-    results_folder = "ROI_samples/masks/train"
-    main(images_folder, results_folder, predictor)
+    main()
