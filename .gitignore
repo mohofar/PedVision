@@ -1,2 +1,3 @@
 PedVisionCode/saved_models/*.pth 
 PedVisionCode/unlabelled_samples/*.png
+PedVisionCode/classifier_samples/images/train/*.png
