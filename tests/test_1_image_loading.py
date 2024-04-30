@@ -17,7 +17,7 @@ class TestInit(unittest.TestCase):
             # 'PedVisionCode/ROI_samples/images/train/1.pth',
             # 'PedVisionCode/ROI_samples/images/train/1.png',
             # 'PedVisionCode/ROI_samples/images/valid/1.pth',
-            # 'PedVisionCode/ROI_samples/images/valid/1.png',
+            'segment-anything/',
             'PedVisionCode/saved_models/sam_vit_h_4b8939.pth'
 
         ]
