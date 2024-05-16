@@ -10,7 +10,6 @@ import os
 from tqdm import tqdm
 from segment_anything import sam_model_registry, SamAutomaticMaskGenerator, SamPredictor
 import pickle 
-
 from PIL import Image
 import numpy as np 
 import matplotlib.pyplot as plt 
@@ -100,7 +99,7 @@ def main():
 
     mask_generator = SamAutomaticMaskGenerator(
         model=sam,
-        points_per_side=32,
+        points_per_side=12,  #32
         pred_iou_thresh=0.86,
         stability_score_thresh=0.92,
         crop_n_layers=1,
@@ -124,7 +123,6 @@ def main():
         print(len(masks))
 
         # save the pkl masks in the results folder  
-        mask_filename = f"{image_filename[:-4]}_mask.pkl"
         with open(os.path.join(results_folder, mask_filename), "wb") as f:
             pickle.dump(masks, f)
         

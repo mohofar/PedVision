@@ -90,7 +90,7 @@ def main():
         plt.imshow(image_data0)
         show_anns(s)
         plt.axis('off')
-        plt.title(len(masks))
+        # plt.title(len(masks))
         plt.show() 
 
         # Plotting

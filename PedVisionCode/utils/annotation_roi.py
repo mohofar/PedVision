@@ -72,7 +72,9 @@ def main():
 
         # Display the image in the grid
         plt.imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
-        plt.title("Original Image")
+        plt.title("Memorize an arbitrary X,Y coordinates within your desire ROI then close this window", fontsize=14)
+        plt.xlabel("X", fontsize=18)
+        plt.ylabel("Y", fontsize=18)
 
         # Plot vertical lines each 50 pixels
         for i in range(0, image.shape[1], 50):
@@ -109,7 +111,7 @@ def main():
             plt.imshow(image)
             show_mask(mask, plt.gca())
             show_points(input_point, input_label, plt.gca())
-            plt.title(f"Mask {i+1}, Score: {score:.3f}", fontsize=18)
+            plt.title(f"Is the blue region show your ROI [y/n]? close this for answering.", fontsize=14)
             plt.axis('off')
             plt.show()
 
