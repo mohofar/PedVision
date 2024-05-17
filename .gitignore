@@ -1,6 +1,7 @@
 PedVisionCode/saved_models/*.pth 
 PedVisionCode/unlabelled_samples/*.png
 PedVisionCode/utils/__pycache__/*.pyc
+PedVisionCode/utils/__pycache__/*.cpython-310.pyc
 PedVisionCode/classifier_samples/masks/train/*.pkl
 PedVisionCode/classifier_samples/masks/train/*.npy
 PedVisionCode/classifier_samples/masks/valid/*.pkl
