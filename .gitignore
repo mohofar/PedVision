@@ -9,5 +9,5 @@ PedVisionCode/new_training/*.pkl
 PedVisionCode/temp_results/*.pkl
 PedVisionCode/classifier_samples/labels/train/*.txt
 PedVisionCode/classifier_samples/labels/valid/*.txt
+PedVisionCode/classifier_samples/images/valid/*.png
 PedVisionCode/classifier_samples/images/train/*.png
-# PedVisionCode/classifier_samples/images/valid/*.png
