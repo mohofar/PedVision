@@ -156,9 +156,9 @@ def dice_score(output, target, threshold=0.5):
     return dice.item()
 
 
-def train_model(model, train_loader, val_loader, criterion, optimizer, num_epochs=25, model_path='PedVisionCode/saved_models/ROI_model_R0.pth', convex=False):
+def train_model(model, train_loader, val_loader, criterion, optimizer, num_epochs, rounds, convex=False):
     best_dice_score = 0.0
-
+    model_path='PedVisionCode/saved_models/ROI_model_R'+str(rounds)+'.pth'
     for epoch in range(num_epochs):
         # Training phase
         model.train()
@@ -197,7 +197,7 @@ def train_model(model, train_loader, val_loader, criterion, optimizer, num_epoch
         print(f'Epoch {epoch+1}/{num_epochs}, Training Loss: {avg_train_loss:.4f}, Validation Dice Score: {avg_dice_score:.4f}')
         torch.save(model.state_dict(), model_path)
 
-def main():
+def main(rounds):
     list_id = []
     for i in glob('PedVisionCode/ROI_samples/images/train/*.png'):
         list_id.append(i)   
@@ -228,15 +228,16 @@ def main():
         activation='sigmoid'
     )
     # model = build_unet() 
-    print(model)
+    # print(model)
     # criterion = nn.BCEWithLogitsLoss()
     #use dice loss
     criterion = smp.losses.DiceLoss(smp.losses.BINARY_MODE, from_logits=True)
     optimizer = torch.optim.Adam(model.parameters(), lr=0.0001)
-    train_model(model, train_loader, val_loader, criterion, optimizer, num_epochs=1, convex=True)
+    num_epochs = 2
+    train_model(model, train_loader, val_loader, criterion, optimizer, num_epochs, rounds, convex=True)
 
 
 
 
 if __name__ == "__main__":
-  main()
+  main(rounds)

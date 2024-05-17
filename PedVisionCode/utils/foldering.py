@@ -22,7 +22,9 @@ def construct_folders():
         'PedVisionCode/ROI_samples/masks/train',
         'PedVisionCode/ROI_samples/masks/valid',
         'PedVisionCode/saved_models',
-        'PedVisionCode/unlabelled_samples'
+        'PedVisionCode/unlabelled_samples',
+        'PedVisionCode/temp_results',
+        'PedVisionCode/new_training'
     ]
 
     for folder in folders:

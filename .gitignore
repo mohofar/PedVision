@@ -10,4 +10,4 @@ PedVisionCode/temp_results/*.pkl
 PedVisionCode/classifier_samples/labels/train/*.txt
 PedVisionCode/classifier_samples/labels/valid/*.txt
 PedVisionCode/classifier_samples/images/train/*
-PedVisionCode/classifier_samples/images/valid/*
+PedVisionCode/classifier_samples/images/valid/*.png
