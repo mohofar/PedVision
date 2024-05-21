@@ -5,10 +5,8 @@ import torch.optim as optim
 from torchvision import models, transforms
 from torch.utils.data import DataLoader, TensorDataset
 from sklearn.metrics import classification_report, accuracy_score
-from sklearn.model_selection import train_test_split
 from glob import glob
 from torchvision import transforms
-from PIL import Image
 import os
 from tqdm import tqdm
 

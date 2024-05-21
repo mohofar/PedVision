@@ -1,23 +1,16 @@
 from glob import glob
 import torch
-from torch import nn
 from torch.utils.data import Dataset, DataLoader
 from torchvision import transforms
 import numpy as np
 from PIL import Image
 import os
 import cv2
-import torch
 import torchvision.transforms as transforms
 import torchvision.transforms.functional as TF
 import random
 from skimage.morphology import convex_hull_image
-import matplotlib.pyplot as plt
-from torch.utils.data import random_split
-
-    
 import segmentation_models_pytorch as smp
-import torch
 
 
 class CustomDataset(Dataset):

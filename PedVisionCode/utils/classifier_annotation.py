@@ -1,15 +1,5 @@
 import numpy  as np
 import os
-import numpy as np
-import numpy as np
-import matplotlib.pyplot as plt
-import math 
-from skimage.transform import rescale, resize, downscale_local_mean
-from glob import glob
-from IPython.display import clear_output
-from tqdm import tqdm
-import os
-import numpy as np
 import matplotlib.pyplot as plt
 from IPython.display import clear_output
 from tqdm import tqdm
