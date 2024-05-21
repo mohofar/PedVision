@@ -1,4 +1,3 @@
-from tqdm import tqdm
 import os
 import pickle
 import shutil
@@ -7,6 +6,8 @@ from PIL import Image
 from skimage.transform import resize
 import cv2
 import matplotlib.pyplot as plt
+from tqdm import tqdm
+
 
 
 def resize_to_original(masks):
@@ -22,7 +23,6 @@ def lbl_generation(masks, image_name):
         txt_lbl.append(int(masks[i]['prediction']))
     np.savetxt('PedVisionCode/new_training/for_cls_net_'+image_name+'.txt', txt_lbl,fmt='%d')
 
-# lbl_generation(masks)
 
 
 def final_masks_preparing(masks, image):
@@ -139,16 +139,8 @@ def process_pkl_files(image_path, mask_path, save_path_image, save_path_mask, pr
             multimask_output=True,
         )
 
-        # plt.figure(figsize=(10,10))
-        # plt.imshow(img)
-        # show_mask(masks[np.argmax(scores)], plt.gca())
-        # show_points(input_point, input_label, plt.gca())
-        # plt.axis('off')
-        # plt.show()
-        #save mask[np.argmax(scores)] to the save path as png binary image
         print(masks[np.argmax(scores)].shape)
         pkl_file = pkl_file.replace('org_mask_', '')
-        # save using cv2
         cv2.imwrite(save_path_mask + '/' + pkl_file[:-4] + '_mask.png', (masks[np.argmax(scores)] * 255).astype(np.uint8))
 
 def move_ROI_images_masks(in_path, out_path):

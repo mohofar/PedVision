@@ -30,5 +30,5 @@ def construct_folders():
     for folder in folders:
         os.makedirs(folder, exist_ok=True)
 
-
-construct_folders()
+# if __name__ == '__main__':
+#     construct_folders()

@@ -8,7 +8,6 @@ def plot_for_annotation(data):
     # Extract the first channel of each image
     first_channel_data = data[:, 1, :, :]
     second_channel_data = data[:, 0, :, :]
-    # print(first_channel_data.shape)
 
     # Calculate the number of rows and columns for the grid
     num_images = len(first_channel_data)
@@ -32,9 +31,9 @@ def plot_for_annotation(data):
     plt.subplots_adjust(wspace=0.5, hspace=0.5)        
     plt.show()
 
-def label_images(data, npy_file, mode='train'):
+def label_images(data, npy_file, mode='train', cls_num=5):
     my_label = np.zeros(data.shape[0])
-    cls_num = 4
+    cls_num = cls_num-1
     indices = []
 
     for cls in range(cls_num):
@@ -47,7 +46,6 @@ def label_images(data, npy_file, mode='train'):
         my_label[indices] = cls+1
 
     # Save the final labels
-    # print(np.array(my_label))
     np.savetxt('PedVisionCode/classifier_samples/labels/'+str(mode)+'/'+npy_file[:-4]+'.txt', np.array(my_label), fmt='%d')
 
 
@@ -66,11 +64,8 @@ def show_anns(anns):
         img[m] = color_mask
     ax.imshow(img)
 
-def main():
-
-
+def main(cls_num):
     folder_path = "PedVisionCode/classifier_samples/masks/"
-
     mode = 'train' #train or valid
     # Get a list of all npy files in the folder
     npy_files = [file for file in os.listdir(folder_path+str(mode)+'/') if file.endswith('.npy')]
@@ -86,9 +81,9 @@ def main():
             print(npy_file)
 
             plot_for_annotation(data)
-            label_images(data, npy_file, mode)
+            label_images(data, npy_file, mode, cls_num)
             clear_output()
 
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()

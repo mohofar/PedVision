@@ -2,35 +2,10 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 from IPython.display import clear_output
-# from mpl_toolkits.axes_grid1 import ImageGrid
 import matplotlib.pyplot as plt
-import sys
 import shutil
 import os
-# sys.path.append("..")
-
-# clone segment-anything repo from: https://github.com/facebookresearch/segment-anything.git 
-# move segment_anything folder from segment-anything to PedVisionCode using shutil
-if not os.path.exists('PedVisionCode\segment_anything'):
-    if not os.path.exists('segment-anything'):
-        print('Please clone the segment-anything repo from: https://github.com/facebookresearch/segment-anything.git')
-    else:
-        shutil.move('segment-anything/segment_anything', 'PedVisionCode')
-
-
 from segment_anything import sam_model_registry, SamPredictor
-
-sam_checkpoint = "PedVisionCode/saved_models/sam_vit_h_4b8939.pth"
-model_type = "vit_h"
-
-device = "cuda"
-
-sam = sam_model_registry[model_type](checkpoint=sam_checkpoint)
-sam.to(device=device)
-
-predictor = SamPredictor(sam)
-
-
 
 def show_mask(mask, ax, random_color=False):
     if random_color:
@@ -52,9 +27,17 @@ def show_box(box, ax):
     w, h = box[2] - box[0], box[3] - box[1]
     ax.add_patch(plt.Rectangle((x0, y0), w, h, edgecolor='green', facecolor=(0,0,0,0), lw=2))  
 
-
-
 def main():
+    sam_checkpoint = "PedVisionCode/saved_models/sam_vit_h_4b8939.pth"
+    model_type = "vit_h"
+
+    device = "cuda"
+
+    sam = sam_model_registry[model_type](checkpoint=sam_checkpoint)
+    sam.to(device=device)
+
+    predictor = SamPredictor(sam)
+
     # Create a grid to display the images
     images_folder = "PedVisionCode/ROI_samples/images/train"
     results_folder = "PedVisionCode/ROI_samples/masks/train"
@@ -122,5 +105,5 @@ def main():
                 continue
         clear_output(wait=True)
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()

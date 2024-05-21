@@ -20,7 +20,7 @@ def apply_transforms(dataset, transforms):
 
     return torch.stack(transformed_images)
 
-def prepare_data_and_model_classifier(rounds, fine_tune):
+def prepare_data_and_model_classifier(rounds, fine_tune, cls_num):
     # Define transformations
     train_transforms = transforms.Compose([
         transforms.ToPILImage(),  # Convert numpy array to PIL Image
@@ -66,7 +66,6 @@ def prepare_data_and_model_classifier(rounds, fine_tune):
 
     # Apply transformations to training images
     train_images_transformed = apply_transforms(train_images, train_transforms)
-    # valid_images_transformed = apply_transforms(valid_images, test_transforms)
 
     # Create datasets
     # Create new dataset with transformed images
@@ -74,24 +73,13 @@ def prepare_data_and_model_classifier(rounds, fine_tune):
     valid_dataset = TensorDataset(valid_images, valid_labels)
 
     # Create data loaders
-    # train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
     # Use the transformed dataset in DataLoader
     train_loader = DataLoader(train_dataset_transformed, batch_size=32, shuffle=True)
     valid_loader = DataLoader(valid_dataset, batch_size=32)
 
     # Load a pre-trained ResNet50 model
-    # model = models.resnet50(pretrained=True)
     model = models.mobilenet_v2(weights=models.MobileNet_V2_Weights.IMAGENET1K_V1)
-    # model = models.densenet121(weights=models.DenseNet121_Weights.IMAGENET1K_V1)
-    # model = SimpleCNN()
-
-    # for param in model.parameters():
-    #     param.requires_grad = False
-
-    # Replace the last fully connected layer
-    # num_ftrs = model.classifier.in_features
-    # model.classifier = nn.Linear(num_ftrs, 5)  # Assuming 5 classes
-    model.classifier[1] = nn.Linear(model.last_channel, 5)  # Assuming 5 classes
+    model.classifier[1] = nn.Linear(model.last_channel, cls_num)  # Assuming cls_num classes
 
     if rounds>0 and fine_tune=='y':
         model.load_state_dict(torch.load('PedVisionCode\saved_models\CLS_model_R'+str(rounds-1)+'-1.pth'))
@@ -100,19 +88,16 @@ def prepare_data_and_model_classifier(rounds, fine_tune):
 
     # Define loss function and optimizer
     criterion = nn.CrossEntropyLoss()
-    # optimizer = optim.Adam(model.classifier.parameters(), lr=0.001)
     optimizer = optim.Adam(model.parameters(), lr=0.001)
     return train_loader, valid_loader, model, criterion, optimizer
 
-def main(rounds, fine_tune='n'):
+def main(rounds, fine_tune, cls_num):
     epochs = 10
     save_path='PedVisionCode/saved_models/CLS_model_R'+str(rounds)+'.pth'
 
     best_accuracy = 0.0
-    best_model_name = ""
     
-    train_loader, valid_loader, model, criterion, optimizer = prepare_data_and_model_classifier(rounds, fine_tune)
-    # model.load_state_dict(torch.load(save_path))
+    train_loader, valid_loader, model, criterion, optimizer = prepare_data_and_model_classifier(rounds, fine_tune, cls_num)
 
     # Training the model
     for epoch in (range(epochs)):  # Number of epochs

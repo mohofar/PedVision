@@ -1,19 +1,19 @@
-from segment_anything import sam_model_registry, SamAutomaticMaskGenerator, SamPredictor
-from tqdm import tqdm
-from skimage.transform import resize
-import pickle
-import segmentation_models_pytorch as smp
-from torch.utils.data import Dataset, DataLoader
-from torchvision import transforms
-import numpy as np
-from PIL import Image
 import os
+import pickle
+import random
 import cv2
+import numpy as np
+import segmentation_models_pytorch as smp
 import torch
+from PIL import Image
+from skimage.transform import resize
+from torch.utils.data import Dataset, DataLoader
+from tqdm import tqdm
+from segment_anything import sam_model_registry, SamAutomaticMaskGenerator, SamPredictor
+
+import matplotlib.pyplot as plt
 import torchvision.transforms as transforms
 import torchvision.transforms.functional as TF
-import random
-import matplotlib.pyplot as plt
 
 
 
@@ -24,9 +24,6 @@ def final_masks_preparing(masks, image):
 
     whole_mask = resize(selected_masks, (256, 256),anti_aliasing=False)[:,:, np.newaxis].astype(np.bool_)
 
-    
-    # image_resized = resize(image, (256, 256),anti_aliasing=False)
-
     for_network = np.zeros((len(masks),3,256,256))
     for i in range(len(masks)):
         for_network[i,0,:,:] = resize(image, (256, 256),anti_aliasing=False)                        # real image
@@ -35,7 +32,6 @@ def final_masks_preparing(masks, image):
 
     return for_network
 
-
 # Function to convert tensor to numpy image
 def tensor_to_image(tensor):
     return tensor.detach().cpu().numpy().squeeze()
@@ -43,9 +39,6 @@ def tensor_to_image(tensor):
 class CustomTransformTest:
     def __init__(self):
         self.resize = transforms.Resize((256, 256))
-        # Normalization parameters for grayscale images
-        # self.mean = [0.485]  # Adjust based on your dataset
-        # self.std = [0.229]   # Adjust based on your dataset
 
     def __call__(self, image):
         # Resize image
@@ -53,9 +46,6 @@ class CustomTransformTest:
 
         # Convert to tensor after all PIL image transformations
         image = TF.to_tensor(image)
-
-        # Normalize the image
-        # image = TF.normalize(image, self.mean, self.std)
 
         return image
 
@@ -68,10 +58,6 @@ class CustomDatasetTest(Dataset):
         return len(self.images)
 
     def __getitem__(self, idx):
-        # img_path = os.path.join(self.image_dir, self.images[idx])
-        # print(img_path)
-        # Read the image using OpenCV
-        # image = cv2.imread(self.image_dir, cv2.IMREAD_GRAYSCALE)
         image = Image.open(self.image_dir)
         image = np.array(image)
         # Convert the image from NumPy array to a PIL Image
@@ -86,7 +72,6 @@ class CustomDatasetTest(Dataset):
 
 def hand_prediction(image_path, model_ROI, show=False):
     custom_transformtest = CustomTransformTest()
-    # print(image_path)
     dataset = CustomDatasetTest(image_path, transform=custom_transformtest)
     dataset2 = DataLoader(dataset, batch_size=1, shuffle=True)
 
@@ -96,17 +81,14 @@ def hand_prediction(image_path, model_ROI, show=False):
 
         # Convert to numpy arrays for visualization
         image_np = tensor_to_image(image)
-        # mask_np = tensor_to_image(mask)
         pred_np = tensor_to_image(pred)
         if show:
             # Visualization
             plt.figure(figsize=(15, 5))
-            # plt.subplot(1, 2, 1)
             plt.imshow(image_np, cmap='gray')
             plt.title('Original Image')
             plt.axis('off')
 
-            # plt.subplot(1, 2, 2)
             plt.imshow(pred_np, alpha=0.5)
             plt.title('Predicted Mask')
             plt.axis('off')
@@ -117,15 +99,6 @@ def hand_prediction(image_path, model_ROI, show=False):
         break
 
 def find_nonzero_boundaries(binary_image):
-    """
-    Finds the boundaries of non-zero pixels in a binary image.
-
-    Parameters:
-    binary_image (numpy.ndarray): A binary image where non-zero pixels represent the features of interest.
-
-    Returns:
-    tuple: The minimum and maximum indices in the x and y directions.
-    """
     # Find the indices where the array is non-zero
     non_zero_indices = np.where(binary_image != 0)
 
@@ -160,12 +133,12 @@ def get_masks(main_path, image_name, mask_generator, model_ROI):
     image = cv2.imread(main_path+image_name)
     original_croped_shape = image.shape
     hand_roi, _ = hand_prediction(main_path+image_name, model_ROI, show=False)
-    #resize hand_roi to image shape
     hand_roi = resize(hand_roi, (image.shape[0], image.shape[1]),anti_aliasing=False)
-    # make it zero and one  
+
+    # binarize the mask  
     hand_roi[hand_roi > 0.5] = 1
     hand_roi[hand_roi <= 0.5] = 0
-    # hand_roi, image, angle = orientation_correction(hand_roi, image)
+
     x_min, x_max, y_min, y_max = find_nonzero_boundaries(hand_roi)
     image2 = image[y_min:y_max, x_min:x_max]
     hand_roi2 = hand_roi[y_min:y_max, x_min:x_max]
@@ -218,7 +191,7 @@ def main(round=0):
         if os.path.exists(os.path.join(results_folder, mask_filename)):
             continue
 
-        img = Image.open(os.path.join(images_folder, image_filename)) #for example image size : 28x28x3
+        img = Image.open(os.path.join(images_folder, image_filename)) 
         img1 = np.array(img.convert('L'))  #convert a gray scale
         crop_limits, original_shape, masks, _ = get_masks(images_folder, image_filename, mask_generator, model_ROI)
         img1 = img1[crop_limits[0]:crop_limits[1], crop_limits[2]:crop_limits[3]]
@@ -228,8 +201,7 @@ def main(round=0):
         # Use 'wb' to write binary data
         with open(results_folder+'org_mask_'+f"{image_filename[:-4]}.pkl", 'wb') as f:
             pickle.dump(masks, f)
-        # print(len(masks), final_masks.shape)
 
 
-if __name__ == "__main__":
-    main(round)
+# if __name__ == "__main__":
+#     main(round)

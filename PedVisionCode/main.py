@@ -4,7 +4,7 @@ sys.path.append('C:/projects/PedVision')
 
 from PedVisionCode.utils import foldering
 from PedVisionCode.utils import sample_images
-from PedVisionCode.utils import annotation_roi
+from PedVisionCode.utils import roi_annotation
 from PedVisionCode.utils import train_roi_model
 from PedVisionCode.utils import VFM
 from PedVisionCode.utils import classifier_annotation
@@ -18,6 +18,7 @@ def main():
   parser = argparse.ArgumentParser(description='PedVisionCode')
 
   # Add any command-line arguments you need
+  parser.add_argument('--num_classes', type=int, default=2, help='Number of classes')
   parser.add_argument('--foldering', type=str, default='n', help='y/n to create folders')
   parser.add_argument('--images_sampling', type=str, default='n', help=' y/n sample images from unlabelled_samples folder to ROI image folder and classifier image folder')
   parser.add_argument('--num_samp', type=int, default=2, help='Number of samples to be taken from unlabelled_samples folder for init round and annotation round')
@@ -44,7 +45,7 @@ def main():
     sample_images.sample_images(args.num_samp)
 
   if args.ROI_annotation =='y':
-    annotation_roi.main()
+    roi_annotation.main()
 
   if args.ROI_train =='y':
     print('Training ROI model...')
@@ -56,15 +57,15 @@ def main():
   
   if args.CLS_annotation =='y':
     print('Classifier annotation is running...')
-    classifier_annotation.main()
+    classifier_annotation.main(args.num_classes)
 
   if args.CLS_train =='y': 
     print('Training classifier model...')
-    train_cls_model.main(args.round, args.fine_tune)
+    train_cls_model.main(args.round, args.fine_tune, args.num_classes)
 
   if args.HITL =='y':
     print('Human-In-The-Loop is running...')
-    HITL.main(args.HITL_num_samples, args.CLS_model_name, args.round)
+    HITL.main(args.HITL_num_samples, args.CLS_model_name, args.round, args.num_classes)
 
   if args.prepare_next_round =='y': 
     print('Preparing for the next round...')
