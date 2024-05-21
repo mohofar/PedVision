@@ -4,8 +4,7 @@
 1. [Introduction](#introduction)
 2. [Installation](#installation)
 3. [Usage](#usage)
-4. [Code Overview](#code-overview)
-5. [Contributing](#contributing)
+4. [Training](#Training)
 6. [License](#license)
 
 ## Introduction
