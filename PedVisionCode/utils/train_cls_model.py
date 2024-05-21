@@ -22,7 +22,7 @@ def apply_transforms(dataset, transforms):
 
     return torch.stack(transformed_images)
 
-def prepare_data_and_model_classifier():
+def prepare_data_and_model_classifier(rounds, fine_tune):
     # Define transformations
     train_transforms = transforms.Compose([
         transforms.ToPILImage(),  # Convert numpy array to PIL Image
@@ -95,20 +95,25 @@ def prepare_data_and_model_classifier():
     # model.classifier = nn.Linear(num_ftrs, 5)  # Assuming 5 classes
     model.classifier[1] = nn.Linear(model.last_channel, 5)  # Assuming 5 classes
 
+    if rounds>0 and fine_tune=='y':
+        model.load_state_dict(torch.load('PedVisionCode\saved_models\CLS_model_R'+str(rounds-1)+'-1.pth'))
+        print('Model loaded: ', 'PedVisionCode\saved_models\CLS_model_R'+str(rounds-1)+'-1.pth')
+
+
     # Define loss function and optimizer
     criterion = nn.CrossEntropyLoss()
     # optimizer = optim.Adam(model.classifier.parameters(), lr=0.001)
     optimizer = optim.Adam(model.parameters(), lr=0.001)
     return train_loader, valid_loader, model, criterion, optimizer
 
-def main(rounds):
+def main(rounds, fine_tune='n'):
     epochs = 10
     save_path='PedVisionCode/saved_models/CLS_model_R'+str(rounds)+'.pth'
 
     best_accuracy = 0.0
     best_model_name = ""
     
-    train_loader, valid_loader, model, criterion, optimizer = prepare_data_and_model_classifier()
+    train_loader, valid_loader, model, criterion, optimizer = prepare_data_and_model_classifier(rounds, fine_tune)
     # model.load_state_dict(torch.load(save_path))
 
     # Training the model
@@ -145,5 +150,5 @@ def main(rounds):
         
         
     
-if __name__ == "__main__":
-    main(rounds)
+# if __name__ == "__main__":
+#     main(rounds)

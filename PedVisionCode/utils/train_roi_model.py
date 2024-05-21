@@ -197,7 +197,7 @@ def train_model(model, train_loader, val_loader, criterion, optimizer, num_epoch
         print(f'Epoch {epoch+1}/{num_epochs}, Training Loss: {avg_train_loss:.4f}, Validation Dice Score: {avg_dice_score:.4f}')
         torch.save(model.state_dict(), model_path)
 
-def main(rounds):
+def main(rounds, fine_tune='n'):
     list_id = []
     for i in glob('PedVisionCode/ROI_samples/images/train/*.png'):
         list_id.append(i)   
@@ -227,6 +227,10 @@ def main(rounds):
         classes=1, # model output channels (number of classes in your dataset)
         activation='sigmoid'
     )
+    if rounds>0 and fine_tune=='y':
+        model.load_state_dict(torch.load('PedVisionCode\saved_models\ROI_model_R'+str(rounds-1)+'-1.pth'))
+        print('Model loaded: ', 'PedVisionCode\saved_models\ROI_model_R'+str(rounds-1)+'-1.pth')
+
     # model = build_unet() 
     # print(model)
     # criterion = nn.BCEWithLogitsLoss()
@@ -239,5 +243,5 @@ def main(rounds):
 
 
 
-if __name__ == "__main__":
-  main(rounds)
+# if __name__ == "__main__":
+#   main(rounds)

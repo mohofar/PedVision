@@ -12,6 +12,7 @@ from PedVisionCode.utils import train_cls_model
 from PedVisionCode.utils import HITL
 from PedVisionCode.utils import next_round_preparing
 
+
 def main():
   # Create the argument parser
   parser = argparse.ArgumentParser(description='PedVisionCode')
@@ -30,7 +31,7 @@ def main():
   parser.add_argument('--CLS_model_name', type=str, default='MobileNet', help='MobileNet, EffiB1, or EffiB5')
   parser.add_argument('--HITL_num_samples', type=int, default=2, help='Number of samples to be taken from unlabelled_samples folder for HITL round')
   parser.add_argument('--prepare_next_round', type=str, default='n', help='y/n to prepare the dataset for the next round')
-
+  parser.add_argument('--fine_tune', type=str, default='n', help='y/n to fine-tune the models')
 
   # Parse the command-line arguments
   args = parser.parse_args()
@@ -47,7 +48,7 @@ def main():
 
   if args.ROI_train =='y':# need to add fine-tuning option
     print('Training ROI model...')
-    train_roi_model.main(args.round)
+    train_roi_model.main(args.round, args.fine_tune)
 
   if args.apply_VFM =='y':
     print('VFM is running...')
@@ -59,7 +60,7 @@ def main():
 
   if args.CLS_train =='y': # need to add fine-tuning option
     print('Training classifier model...')
-    train_cls_model.main(args.round)
+    train_cls_model.main(args.round, args.fine_tune)
 
   if args.HITL =='y':
     print('Human-In-The-Loop is running...')
