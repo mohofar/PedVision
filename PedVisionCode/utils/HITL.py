@@ -223,7 +223,7 @@ def load_model_and_predict(mask, model_name ,model_path):
         in_features = model_cls.classifier[-1].in_features
         model_cls.classifier[-1] = nn.Linear(in_features, 5)
     else:
-        print('Specify the model name')
+        print('Specify the model name: MobileNet, EffiB1, or EffiB5')
     # model_cls = models.efficientnet_b5(weights=models.EfficientNet_B5_Weights.IMAGENET1K_V1)
     # in_features = model_cls.classifier[-1].in_features
     # model_cls.classifier[-1] = nn.Linear(in_features, 5)
@@ -267,8 +267,8 @@ def pipeline(main_path, image_name, image_num, model_name, model_path, model_ROI
 
 def main(num_new_cases, model_name,  round):
     main_path = 'PedVisionCode/unlabelled_samples/'
-    CLS_model_path = 'PedVisionCode\saved_models\CLS_model_R'+str(round)+'.pth'
-    ROI_model_path = 'PedVisionCode\saved_models\ROI_model_R'+str(round)+'.pth'
+    CLS_model_path = 'PedVisionCode\saved_models\CLS_model_R'+str(round)+'-1.pth'
+    ROI_model_path = 'PedVisionCode\saved_models\ROI_model_R'+str(round)+'-1.pth'
     sam_checkpoint = "PedVisionCode\saved_models\sam_vit_h_4b8939.pth" 
     model_type = "vit_h"
 
@@ -336,7 +336,7 @@ def main(num_new_cases, model_name,  round):
             print(e)
             pass
 
-if __name__ == "__main__":
-    # num_new_cases = 2
-    # model_name = 'MobileNet'
-    main(num_new_cases, model_name, rounds)
+# if __name__ == "__main__":
+#     # num_new_cases = 2
+#     # model_name = 'MobileNet'
+#     main(num_new_cases, model_name, rounds)

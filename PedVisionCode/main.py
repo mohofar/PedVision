@@ -10,6 +10,7 @@ from PedVisionCode.utils import VFM
 from PedVisionCode.utils import classifier_annotation
 from PedVisionCode.utils import train_cls_model
 from PedVisionCode.utils import HITL
+from PedVisionCode.utils import next_round_preparing
 
 def main():
   # Create the argument parser
@@ -28,7 +29,7 @@ def main():
   parser.add_argument('--HITL', type=str, default='n', help='y/n to run the Human-In-The-Loop framework')
   parser.add_argument('--CLS_model_name', type=str, default='MobileNet', help='MobileNet, EffiB1, or EffiB5')
   parser.add_argument('--HITL_num_samples', type=int, default=2, help='Number of samples to be taken from unlabelled_samples folder for HITL round')
-  parser.add_argument('--next_round_preparing', type=str, default='n', help='y/n to prepare for next round')
+  parser.add_argument('--prepare_next_round', type=str, default='n', help='y/n to prepare the dataset for the next round')
 
 
   # Parse the command-line arguments
@@ -44,7 +45,7 @@ def main():
   if args.ROI_annotation =='y':
     annotation_roi.main()
 
-  if args.ROI_train =='y':
+  if args.ROI_train =='y':# need to add fine-tuning option
     print('Training ROI model...')
     train_roi_model.main(args.round)
 
@@ -56,13 +57,18 @@ def main():
     print('Classifier annotation is running...')
     classifier_annotation.main()
 
-  if args.CLS_train =='y':
+  if args.CLS_train =='y': # need to add fine-tuning option
     print('Training classifier model...')
     train_cls_model.main(args.round)
 
   if args.HITL =='y':
     print('Human-In-The-Loop is running...')
     HITL.main(args.HITL_num_samples, args.CLS_model_name, args.round)
+
+  if args.prepare_next_round =='y': # this step can be done before fine-tuning the models automatically
+    print('Preparing for the next round...')
+    next_round_preparing.main()
+
 
 if __name__ == "__main__":
   main()
