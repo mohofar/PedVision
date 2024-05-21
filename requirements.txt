@@ -1,1 +1,12 @@
-os
+opencv-python==4.8.1
+numpy==1.26.3
+matplotlib==3.8.3
+ipython==8.22.2
+scikit-image==0.22.0
+pillow==10.2.0
+segmentation-models-pytorch==0.3.3
+torch==2.0.0+cu118
+torchvision==0.15.1+cu118
+tqdm==4.66.2
+pickle==0.0.11
+scikit-learn==1.4.1.post1

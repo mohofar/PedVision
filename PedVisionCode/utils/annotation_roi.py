@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 from IPython.display import clear_output
-from mpl_toolkits.axes_grid1 import ImageGrid
+# from mpl_toolkits.axes_grid1 import ImageGrid
 import matplotlib.pyplot as plt
 import sys
 import shutil
