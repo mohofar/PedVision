@@ -46,7 +46,7 @@ def main():
   if args.ROI_annotation =='y':
     annotation_roi.main()
 
-  if args.ROI_train =='y':# need to add fine-tuning option
+  if args.ROI_train =='y':
     print('Training ROI model...')
     train_roi_model.main(args.round, args.fine_tune)
 
@@ -58,7 +58,7 @@ def main():
     print('Classifier annotation is running...')
     classifier_annotation.main()
 
-  if args.CLS_train =='y': # need to add fine-tuning option
+  if args.CLS_train =='y': 
     print('Training classifier model...')
     train_cls_model.main(args.round, args.fine_tune)
 
@@ -66,7 +66,7 @@ def main():
     print('Human-In-The-Loop is running...')
     HITL.main(args.HITL_num_samples, args.CLS_model_name, args.round)
 
-  if args.prepare_next_round =='y': # this step can be done before fine-tuning the models automatically
+  if args.prepare_next_round =='y': 
     print('Preparing for the next round...')
     next_round_preparing.main()
 
