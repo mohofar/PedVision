@@ -1,5 +1,7 @@
 # PedVision
-Here is the official code for testing and training " Object Level Segmentation for Overcoming Data Scarcity and Variability of Pediatric Images Using Centralized Visual Foundation Model" paper. We would be happy to resolve the issues if you open up an issue here. This is a short video tutorial if you need to follow the steps.
+Here is the official code for testing and training " Object Level Segmentation for Overcoming Data Scarcity and Variability of Pediatric Images Using Centralized Visual Foundation Model" paper. We would be happy to resolve the issues if you open up an issue here. This is a short video tutorial if you need to follow the steps. The following image shows the pipeline (see the paper for more details) and we go through the codes for each part in the following. 
+![alt text](http://url/to/img.png)
+
 ## Table of Contents
 1. [Installation](#installation)
 2. [Usage](#usage)
@@ -7,7 +9,7 @@ Here is the official code for testing and training " Object Level Segmentation f
 4. [License](#license)
 
 ## Installation
-You can use reqirement.txt libraries using `pip install -r requirements.txt`. However, we used Pytorch version `2.0.0+cu118` for our implementation and Torchvision version `0.15.1+cu118`. It is recommended to use these versions for full compatibility. 
+You can use reqirement.txt libraries using `pip install -r requirements.txt`. However for torch libraries, we used Pytorch version `2.0.0+cu118` and Torchvision version `0.15.1+cu118`. It is recommended to use these versions for full compatibility. 
 
 ## Usage
 For testing the trained PedVision pipeline, please  use...
