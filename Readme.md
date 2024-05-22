@@ -1,6 +1,6 @@
 # PedVision
 Here is the official code for testing and training " Object Level Segmentation for Overcoming Data Scarcity and Variability of Pediatric Images Using Centralized Visual Foundation Model" paper. We would be happy to resolve the issues if you open up an issue here. This is a short video tutorial if you need to follow the steps. The following image shows the pipeline (see the paper for more details) and we go through the codes for each part in the following. 
-![alt text](http://url/to/img.png)
+![pipeline](https://github.com/mohofar/PedVision/blob/main/git_images/Pipeline.jpg)
 
 ## Table of Contents
 1. [Installation](#installation)
