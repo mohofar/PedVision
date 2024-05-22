@@ -9,7 +9,7 @@ Here is the official code for testing and training " Object Level Segmentation f
 4. [License](#license)
 
 ## Installation
-You can use reqirement.txt libraries using `pip install -r requirements.txt`. However for torch libraries, we used Pytorch version `2.0.0+cu118` and Torchvision version `0.15.1+cu118`. It is recommended to use these versions for full compatibility. 
+You can use reqirement.txt libraries using `pip install -r requirements.txt`. However, for torch libraries, we used Pytorch version `2.0.0+cu118` and Torchvision version `0.15.1+cu118`. It is recommended to use these versions for full compatibility. 
 
 ## Usage
 For testing the trained PedVision pipeline, please  use...
@@ -19,18 +19,24 @@ the role of each folder
 
 
 ## Training 
-For a better training procedure on your new datasets, we have provided a checklist below to be followed in order. 
-1. After cloning the repo, make sure that you are in the correct folder for running the script.
-2. Some of the folders do not exist in the repo, thus run `foldering` script using the following comment.
+
+For a better training procedure on your new datasets, we have provided a checklist below to be followed in order.
+
+➡️1. After cloning the repo, make sure that you are in the correct folder for running the script.
+
+➡️2. Some of the folders do not exist in the repo, thus run `foldering` script using the following comment.
    `python PedVisionCode/main.py --foldering y`
-3. The images should be stored in the `unlabelled_samples` folder. We use this folder as the pool of data for our training.
+   
+➡️3. The images should be stored in the `unlabelled_samples` folder. We use this folder as the pool of data for our training.
 ### Sampling and the first round
-4. Use the following comment for sampling a specific number of images for the first round of training.
+➡️4. Use the following comment for sampling a specific number of images for the first round of training.
 `python PedVisionCode/main.py --images_sampling y --num_samp 2`
 By `num_samp`, you can choose how many samples you need for the first round of training and also annotation using the provided scripts. The annotation procedure is fast enough. Thus, providing more examples at the first round would help the pipeline to present better results in earlier rounds. However, you can run this comment more than once and provide more samples for annotation for the first round. Please be aware that the longest manual procedure is in the first round and after the first round the automation process will help to speed up the training.
-5. The first and last annotation for the ROI model will be this step. Please use the following comment for doing annotation for ROI model.
+
+➡️5. The first and last annotation for the ROI model will be this step. Please use the following comment for doing annotation for ROI model.
 `python PedVisionCode/main.py --ROI_annotation y`
-6.  
+
+➡️6.  
 
 
 
