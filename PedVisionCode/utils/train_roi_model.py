@@ -196,7 +196,7 @@ def train_model(model, train_loader, val_loader, criterion, optimizer, num_epoch
             torch.save(model.state_dict(), model_path)
 
 
-def main(rounds, fine_tune='n'):
+def main(rounds, fine_tune):
     list_id = glob('PedVisionCode/ROI_samples/images/train/*.png')
     print(len(list_id), list_id[:5])
 

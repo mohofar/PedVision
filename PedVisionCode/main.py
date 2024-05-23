@@ -61,7 +61,7 @@ def main():
 
   if args.CLS_train =='y': 
     print('Training classifier model...')
-    train_cls_model.main(args.round, args.fine_tune, args.num_classes)
+    train_cls_model.main(args.round, args.fine_tune, args.num_classes, args.CLS_model_name)
 
   if args.HITL =='y':
     print('Human-In-The-Loop is running...')

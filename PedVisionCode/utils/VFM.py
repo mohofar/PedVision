@@ -151,7 +151,7 @@ def get_masks(main_path, image_name, mask_generator, model_ROI):
     return [y_min, y_max, x_min, x_max], original_croped_shape, masks_masked, image2
 
 
-def main(round=0):
+def main(round):
 
     sam_checkpoint = "PedVisionCode/saved_models/sam_vit_h_4b8939.pth"
     model_type = "vit_h"

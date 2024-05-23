@@ -20,7 +20,7 @@ def apply_transforms(dataset, transforms):
 
     return torch.stack(transformed_images)
 
-def prepare_data_and_model_classifier(rounds, fine_tune, cls_num):
+def prepare_data_and_model_classifier(rounds, fine_tune, cls_num, model_name):
     # Define transformations
     train_transforms = transforms.Compose([
         transforms.ToPILImage(),  # Convert numpy array to PIL Image
@@ -76,10 +76,20 @@ def prepare_data_and_model_classifier(rounds, fine_tune, cls_num):
     # Use the transformed dataset in DataLoader
     train_loader = DataLoader(train_dataset_transformed, batch_size=32, shuffle=True)
     valid_loader = DataLoader(valid_dataset, batch_size=32)
-
-    # Load a pre-trained ResNet50 model
-    model = models.mobilenet_v2(weights=models.MobileNet_V2_Weights.IMAGENET1K_V1)
-    model.classifier[1] = nn.Linear(model.last_channel, cls_num)  # Assuming cls_num classes
+    if(model_name == 'MobileNet'):
+        model = models.mobilenet_v2(weights=models.MobileNet_V2_Weights.IMAGENET1K_V1)
+        model.classifier[1] = nn.Linear(model.last_channel, cls_num)
+    elif(model_name == 'EffiB1'):
+        model = models.efficientnet_b1(weights=models.EfficientNet_B1_Weights.IMAGENET1K_V1)
+        in_features = model.classifier[-1].in_features
+        model.classifier[-1] = nn.Linear(in_features, cls_num)
+    elif(model_name == 'EffiB5'):
+        
+        model = models.efficientnet_b5(weights=models.EfficientNet_B5_Weights.IMAGENET1K_V1)
+        in_features = model.classifier[-1].in_features
+        model.classifier[-1] = nn.Linear(in_features, cls_num)
+    else:
+        print('Specify the model name: MobileNet, EffiB1, or EffiB5')
 
     if rounds>0 and fine_tune=='y':
         model.load_state_dict(torch.load('PedVisionCode\saved_models\CLS_model_R'+str(rounds-1)+'.pth'))
@@ -91,13 +101,13 @@ def prepare_data_and_model_classifier(rounds, fine_tune, cls_num):
     optimizer = optim.Adam(model.parameters(), lr=0.001)
     return train_loader, valid_loader, model, criterion, optimizer
 
-def main(rounds, fine_tune, cls_num):
+def main(rounds, fine_tune, cls_num, model_name):
     epochs = 10
     save_path='PedVisionCode/saved_models/CLS_model_R'+str(rounds)+'.pth'
 
     best_accuracy = 0.0
     
-    train_loader, valid_loader, model, criterion, optimizer = prepare_data_and_model_classifier(rounds, fine_tune, cls_num)
+    train_loader, valid_loader, model, criterion, optimizer = prepare_data_and_model_classifier(rounds, fine_tune, cls_num, model_name)
 
     # Training the model
     for epoch in (range(epochs)):  # Number of epochs
