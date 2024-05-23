@@ -222,8 +222,8 @@ def main(rounds, fine_tune='n'):
         activation='sigmoid'
     )
     if rounds > 0 and fine_tune == 'y':
-        model.load_state_dict(torch.load(f'PedVisionCode/saved_models/ROI_model_R{rounds - 1}-1.pth'))
-        print(f'Model loaded: PedVisionCode/saved_models/ROI_model_R{rounds - 1}-1.pth')
+        model.load_state_dict(torch.load(f'PedVisionCode/saved_models/ROI_model_R{rounds - 1}.pth'))
+        print(f'Model loaded: PedVisionCode/saved_models/ROI_model_R{rounds - 1}.pth')
 
     criterion = smp.losses.DiceLoss(smp.losses.BINARY_MODE, from_logits=True)
     optimizer = optim.Adam(model.parameters(), lr=0.0001)

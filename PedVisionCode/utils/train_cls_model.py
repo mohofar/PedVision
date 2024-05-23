@@ -82,8 +82,8 @@ def prepare_data_and_model_classifier(rounds, fine_tune, cls_num):
     model.classifier[1] = nn.Linear(model.last_channel, cls_num)  # Assuming cls_num classes
 
     if rounds>0 and fine_tune=='y':
-        model.load_state_dict(torch.load('PedVisionCode\saved_models\CLS_model_R'+str(rounds-1)+'-1.pth'))
-        print('Model loaded: ', 'PedVisionCode\saved_models\CLS_model_R'+str(rounds-1)+'-1.pth')
+        model.load_state_dict(torch.load('PedVisionCode\saved_models\CLS_model_R'+str(rounds-1)+'.pth'))
+        print('Model loaded: ', 'PedVisionCode\saved_models\CLS_model_R'+str(rounds-1)+'.pth')
 
 
     # Define loss function and optimizer
