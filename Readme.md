@@ -41,7 +41,7 @@ All the trained weights of the networks in the last round and foundation models 
 By `num_samp`, you can choose how many samples you need for the first round of training and also annotation using the provided scripts. The annotation procedure is fast enough. Thus, providing more examples at the first round would help the pipeline to present better results in earlier rounds. However, you can run this comment more than once and provide more samples for annotation for the first round. Please be aware that the longest manual procedure is in the first round and after the first round the automation process will help to speed up the training.
 
 ⬜ ROI annotation using `python PedVisionCode/main.py --ROI_annotation y`\
-The first and last annotation for the ROI model will be this step. Please use the above comment for image annotation for the ROI model. This script plots an image and requests a point coordinate (x,y) that is in arbitrary space within the region of interest of your project (e.g. hand region for ours). Then, will show three results images that possibly cover the ROI part. you can choose to keep by `y` and to ignore by 'n'. However, for some projects, it might be a case to find ROI. You can use the CovexHull algorithm instead to specify an ROI for your data. 
+The first and last annotation for the ROI model will be this step. Please use the above comment for image annotation for the ROI model. This script plots an image and requests a point coordinate (x,y) that is in arbitrary space within the region of interest of your project (e.g. hand region for ours). Then, it will show three resulted images that possibly cover the ROI part. you can choose to keep by `y` and to ignore by 'n'. However, for some projects, it might be a case to find ROI. You can use the CovexHull algorithm instead to specify an ROI for your data. 
 
 ⬜ Train ROI model using `...`\
 ⬜ Apply VFM on masked images using `...`\
@@ -65,6 +65,7 @@ This step will move all the processed and confirmed images to the related folder
 As the results of the ROI model affect the inputs of the next networks, it is crucial to do this step and update the training set. 
 
 ⬜ fine-tuning CLS model using ...
+⬜ Repeat step3 for the next rounds
 
 
 ## Test the pipeline
@@ -73,4 +74,4 @@ For testing the trained PedVision pipeline, please you should follow the step1 c
 ## Other consideration
 
 #### Changing CLS model
-If you need to use other networks for CLS or ROI model, use `--fine-tuning n` option in the comment and add your own network in the code instead. As the training samples are updated each round, using larger networks for CLS or ROI model in the later rounds will boost the results. 
+If you need to use other networks for the CLS or ROI model, use `--fine-tuning n` option in the comment and add your own network in the code instead. As the training samples are updated each round, using larger networks for the CLS or ROI model in the later rounds will boost the results. 
