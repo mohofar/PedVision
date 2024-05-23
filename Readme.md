@@ -17,74 +17,50 @@ You can use reqirement.txt libraries using `pip install -r requirements.txt`. Ho
 Follow the next checklist for step-by-step training of the pipeline. If you want to just test the pipeline, do the first 5 steps of the checklist and skip others. 
 
 #### ➡️Step1: Initialization 
-⬜ correct folder of the repo (cd to repo) \
+⬜ After cloning the repo and change the directory to the `PedVision` folder \
 ⬜ `python PedVisionCode/main.py --foldering y` for foldering\
-⬜ putting images in `unlabelled_samples`\
-⬜ running test script to check compatibility \
-⬜ download the trained weights\
+Use the above comment to construct all related folders for training or fine-tuning the models.
+
+⬜ Put images in `unlabelled_samples`\
+For training or testing the pipeline, put all images in the above-mentioned folder. The used image format is PNG, however, changing the format to other formats would not affect the pipeline training a lot. For DiCOM or other medical images, there is a need to add extra lines of code to change them to PNG. Finally, there is no need to resize your images to constant size as this pipeline will do this if needed. 
+
+⬜ Run test script to check compatibility using `ddddddd.py` \
+The provided script will check your installation and compatibility for testing or training the code. Continue if all tests are passed.
+
+⬜ Download the trained weights\
+All the trained weights of the networks in the last round and foundation models are provided in the next table. We used SAM ViT_h for our pipeline but the other version works too. Download and put them in `PedVisionCode\saved_models` folder. 
+| Models  | Weights |
+| ------------- | ------------- |
+| VFM#1 (SAM ViT_h)  | Download  |
+| VFM#2 (SAM ViT_l)  | Download  |
+| VFM#3 (SAM ViT_b)  | Download  |
+| ROI model (Round=12)  | Download  |
+| CLS model (Round=12) | Download  |
+
 #### ➡️Step2: First round annotation and training 
-⬜ sampling using `python PedVisionCode/main.py --images_sampling y --num_samp 2`\
+⬜ Do image sampling `unlabelled_samples` from using `python PedVisionCode/main.py --images_sampling y --num_samp 100`\
+By `num_samp`, you can choose how many samples you need for the first round of training and also annotation using the provided scripts. The annotation procedure is fast enough. Thus, providing more examples at the first round would help the pipeline to present better results in earlier rounds. However, you can run this comment more than once and provide more samples for annotation for the first round. Please be aware that the longest manual procedure is in the first round and after the first round the automation process will help to speed up the training.
+
 ⬜ ROI annotation using `python PedVisionCode/main.py --ROI_annotation y`\
-⬜ check the results of ROI annotation\
-⬜ training ROI model using ... \
-⬜ applying VFM on masked images\
-⬜ CLS annotation using ...\
-⬜ training CLS model using ...\
+The first and last annotation for the ROI model will be this step. Please use the above comment for image annotation for the ROI model. This script plots an image and requests a point coordinate (x,y) that is in arbitrary space within the region of interest of your project (e.g. hand region for ours). Then, will show three results images that possibly cover the ROI part. you can choose to keep by `y` and to ignore by 'n'. However, for some projects, it might be a case to find ROI. You can use the CovexHull algorithm instead to specify an ROI for your data. 
+
+⬜ Train ROI model using `...`\
+⬜ Apply VFM on masked images using `...`\
+After training the ROI model, apply VFM to use masked images using ROI model predictions. This step needs enough space based on your project. We can not estimate the exact size as it is dependent on different factors like image size, image details, VFM type, and VFM parameters. However, as a rough example for 10 sample images with a size of (2460,2910), 1.65GB of processed data are saved. Note that this data can be removed after training. 
+
+⬜ CLS annotation using `...`\
+By running the above comment, all predicted masks using VFM will visualized with a specified number above them. The model will ask for the slice number for each class. The code considered background and irrelevant predicted parts as a separate class (class 0). Note, if the results missed a part of the image, this is not important for the training of the pipeline as the model just wants to recognize all predicted objects in the image. This step will prepare the images for the classifier network and finally save images as .npy files and labels as .txt files in relevant folders. For the mentioned 10 samples, the occupied size was 352MB. 
+
+⬜ Train CLS model using ...\
+
+The previous step will save the best trained models of the ROI and the classifier for the next rounds.
 #### ➡️Step3: Next rounds training 
 ⬜ HITL for selecting the good cases using ...\
+
 ⬜ Preparing for the next round\
 ⬜ fine-tuning ROI model using ...\
 ⬜ fine-tuning CLS model using ...
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-➡️1. After cloning the repo, make sure that you are in the correct folder for running the script.
-
-➡️2. Some of the folders do not exist in the repo, thus run `foldering` script using the following comment.
-   `python PedVisionCode/main.py --foldering y`
-   
-➡️3. The images should be stored in the `unlabelled_samples` folder. We use this folder as the pool of data for our training.
-| First Header  | Second Header |
-| ------------- | ------------- |
-| Content Cell  | Content Cell  |
-| Content Cell  | Content Cell  |
-### Sampling and the first round
-➡️4. Use the following comment for sampling a specific number of images for the first round of training.
-`python PedVisionCode/main.py --images_sampling y --num_samp 2`
-By `num_samp`, you can choose how many samples you need for the first round of training and also annotation using the provided scripts. The annotation procedure is fast enough. Thus, providing more examples at the first round would help the pipeline to present better results in earlier rounds. However, you can run this comment more than once and provide more samples for annotation for the first round. Please be aware that the longest manual procedure is in the first round and after the first round the automation process will help to speed up the training.
-
-➡️5. The first and last annotation for the ROI model will be this step. Please use the following comment for doing annotation for ROI model.
-`python PedVisionCode/main.py --ROI_annotation y`
-
-➡️6.  
-
-
-
-
-### first round
-ROI annotation 
-ROI training 
-CLS annotation
-CLS training
-HITL
-Next round preparing
-### next rounds
-ROI fine-tuning 
-CLS fine-tuning 
-HITL
-Next round preparing
 
 ## Test the pipeline
 For testing the trained PedVision pipeline, please  use...
