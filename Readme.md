@@ -43,33 +43,37 @@ By `num_samp`, you can choose how many samples you need for the first round of t
 ⬜ ROI annotation using `python PedVisionCode/main.py --ROI_annotation y`\
 The first and last annotation for the ROI model will be this step. Please use the above comment for image annotation for the ROI model. This script plots an image and requests a point coordinate (x,y) that is in arbitrary space within the region of interest of your project (e.g. hand region for ours). Then, it will show three resulted images that possibly cover the ROI part. you can choose to keep by `y` and to ignore by 'n'. However, for some projects, it might be a case to find ROI. You can use the CovexHull algorithm instead to specify an ROI for your data. 
 
-⬜ Train ROI model using `...`\
-⬜ Apply VFM on masked images using `...`\
+⬜ Train ROI model using `python PedVisionCode/main.py --ROI_train y --round 0`\
+Note that round zero is the initial round. 
+
+⬜ Apply VFM on masked images using `python PedVisionCode/main.py --apply_VFM y --round 0`\
 After training the ROI model, apply VFM to use masked images using ROI model predictions. This step needs enough space based on your project. We can not estimate the exact size as it is dependent on different factors like image size, image details, VFM type, and VFM parameters. However, as a rough example for 10 sample images with a size of (2460,2910), 1.65GB of processed data are saved. Note that this data can be removed after training. 
 
-⬜ CLS annotation using `...`\
+⬜ CLS annotation using `python PedVisionCode/main.py --CLS_annotation y --num_classes 5 --CLS_model_name MobileNet`\
 By running the above comment, all predicted masks using VFM will visualized with a specified number above them. The model will ask for the slice number for each class. The code considered background and irrelevant predicted parts as a separate class (class 0). Note, if the results missed a part of the image, this is not important for the training of the pipeline as the model just wants to recognize all predicted objects in the image. This step will prepare the images for the classifier network and finally save images as .npy files and labels as .txt files in relevant folders. For the mentioned 10 samples, the occupied size was 352MB. 
 
-⬜ Train CLS model using ...\
+⬜ Train CLS model using `python PedVisionCode/main.py --ROI_train y --round 0 --num_classes 5`\
+
+
 
 The previous step will save the best trained models of the ROI and the classifier for the next rounds.
 #### ➡️Step3: Next rounds training 
-⬜ HITL for selecting the good cases using ...\
-This step will show you the predicted masks for each class separately. You need to put `y` if the prediction is correct otherwise `n`. Again missed parts of the image are not important if they are missed not classied wrongly for other classes or the background class. This procedure will continue to cover all images. Note, that very small mistakes can be ignored in the first rounds but not the last ones. 
+⬜ HITL for selecting the good cases using `python PedVisionCode\main.py --HITL y --CLS_model_name MobileNet --HITL_num_samples 3 --round 0 `\
+This step will show you the predicted masks for each class separately. Then will ask your opinion on that. You need to put `y` if the prediction is correct otherwise `n`. Again missed parts of the image are not important if they are missed not classied wrongly for other classes or the background class. This procedure will continue for `HITL_num_samples` images. The provided models for `CLS_model_name` are `MobileNet`, `EffiB1` for EfficientNetB1, and `EffiB5` for EfficientNetB5. Note that very small mistakes can be ignored in the first rounds but not the last ones. 
 
 ⬜ Preparing for the next round\
 This step will move all the processed and confirmed images to the related folders and prepare the dataset for the fine-tuning ROI and CLS models in the next rounds. 
 
-⬜ fine-tuning ROI model using ...\
-⬜ Apply VFM on masked images using `...`\
+⬜ fine-tuning ROI model using `python PedVisionCode/main.py --ROI_train y --round 1 --fine_tune y`\
+⬜ Apply VFM on masked images using `python PedVisionCode/main.py --apply_VFM y --round 1`\
 As the results of the ROI model affect the inputs of the next networks, it is crucial to do this step and update the training set. 
 
-⬜ fine-tuning CLS model using ...
-⬜ Repeat step3 for the next rounds
+⬜ fine-tuning CLS model using `python PedVisionCode/main.py --ROI_train y --round 1 --fine_tune y --num_classes 5`
+⬜ Repeat Step3 for the next rounds
 
 
 ## Test the pipeline
-For testing the trained PedVision pipeline, please you should follow the step1 checklist. Then use the following comment to see the prediction results. 
+For testing the trained PedVision pipeline, follow the Step1 checklist. Then use the following comment to see the prediction results. 
 
 ## Other consideration
 
@@ -78,5 +82,5 @@ If you need to use other networks for the CLS or ROI model, use `--fine-tuning n
 
 ## ToDo
 ⬜ Adding test dependency \
-⬜ Adding other images of annotation\
 ⬜ Cloning the repo and testing on different devices 
+⬜ Adding recorded video
