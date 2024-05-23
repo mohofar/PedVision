@@ -17,12 +17,11 @@ You can use reqirement.txt libraries using `pip install -r requirements.txt`. Ho
 Follow the next checklist for step-by-step training of the pipeline. If you want to just test the pipeline, do the first 5 steps of the checklist and skip others. 
 
 #### ➡️Step1: Initialization 
-⬜ After cloning the repo and change the directory to the `PedVision` folder \
 ⬜ `python PedVisionCode/main.py --foldering y` for foldering\
 Use the above comment to construct all related folders for training or fine-tuning the models.
 
 ⬜ Put images in `unlabelled_samples`\
-For training or testing the pipeline, put all images in the above-mentioned folder. The used image format is PNG, however, changing the format to other formats would not affect the pipeline training a lot. For DiCOM or other medical images, there is a need to add extra lines of code to change them to PNG. Finally, there is no need to resize your images to constant size as this pipeline will do this if needed. 
+For training or testing the pipeline, put all images in the above-mentioned folder. The used image format is PNG, however, changing the format to other formats would not affect the pipeline training a lot. For DiCOM or other medical images, there is a need to add extra lines of code to change them to PNG. Finally, there is no need to resize your images to a constant size as this pipeline will do this if needed. 
 
 ⬜ Run test script to check compatibility using `ddddddd.py` \
 The provided script will check your installation and compatibility for testing or training the code. Continue if all tests are passed.
@@ -56,22 +55,22 @@ By running the above comment, all predicted masks using VFM will visualized with
 The previous step will save the best trained models of the ROI and the classifier for the next rounds.
 #### ➡️Step3: Next rounds training 
 ⬜ HITL for selecting the good cases using ...\
+This step will show you the predicted masks for each class separately. You need to put `y` if the prediction is correct otherwise `n`. Again missed parts of the image are not important if they are missed not classied wrongly for other classes or the background class. This procedure will continue to cover all images. Note, that very small mistakes can be ignored in the first rounds but not the last ones. 
 
 ⬜ Preparing for the next round\
+This step will move all the processed and confirmed images to the related folders and prepare the dataset for the fine-tuning ROI and CLS models in the next rounds. 
+
 ⬜ fine-tuning ROI model using ...\
+⬜ Apply VFM on masked images using `...`\
+As the results of the ROI model affect the inputs of the next networks, it is crucial to do this step and update the training set. 
+
 ⬜ fine-tuning CLS model using ...
 
 
 ## Test the pipeline
-For testing the trained PedVision pipeline, please  use...
-### Folder and data structure 
-the role of each folder
-### test on new samples
+For testing the trained PedVision pipeline, please you should follow the step1 checklist. Then use the following comment to see the prediction results. 
 
 ## Other consideration
 
-Changing CLS model
-Changing the class number
-supported images and changing
-## License
-Information about the project's license.
+#### Changing CLS model
+If you need to use other networks for CLS or ROI model, use `--fine-tuning n` option in the comment and add your own network in the code instead. As the training samples are updated each round, using larger networks for CLS or ROI model in the later rounds will boost the results. 
