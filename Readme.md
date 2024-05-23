@@ -1,86 +1,128 @@
-
 # PedVision
-Here is the official code for testing and training "Object Level Segmentation for Overcoming Data Scarcity and Variability of Pediatric Images Using Centralized Visual Foundation Model" paper. We would be happy to resolve the issues if you open up an issue here. This is a short video tutorial if you need to follow the steps. The following image shows the pipeline (see the paper for more details) and we go through the codes for each part in the following. 
+
+Welcome to the official code repository for the paper "Object Level Segmentation for Overcoming Data Scarcity and Variability of Pediatric Images Using Centralized Visual Foundation Model". We are committed to addressing any issues you encounter—please open an issue on this repository if you need assistance. A short video tutorial is also available to help you follow the steps. The image below outlines the pipeline (see the paper for more details), and we will walk you through the code for each part in the sections below.
+
 ![pipeline](https://github.com/mohofar/PedVision/blob/main/git_images/Pipeline.jpg)
 
 ## Table of Contents
 1. [Dependencies Installation](#dependencies-installation)
 2. [Training](#training)
-3. [Test the pipeline](#test-the-pipeline)
-4. [Other consideration](#other-consideration)
-5. [License](#license)
+3. [Testing the Pipeline](#testing-the-pipeline)
+4. [Other Considerations](#other-considerations)
+5. [ToDo](#todo)
+6. [License](#license)
 
 ## Dependencies Installation
-You can use reqirement.txt libraries using `pip install -r requirements.txt`. However, for torch libraries, we used Pytorch version `2.0.0+cu118` and Torchvision version `0.15.1+cu118`. It is recommended to use these versions for full compatibility. 
+To install the necessary libraries, use the `requirements.txt` file:
+```
+pip install -r requirements.txt
+```
+For PyTorch libraries, we recommend using PyTorch version `2.0.0+cu118` and Torchvision version `0.15.1+cu118` for full compatibility.
 
 ## Training 
-Follow the next checklist for step-by-step training of the pipeline. If you want to just test the pipeline, do the first 5 steps of the checklist and skip others. 
+Follow the steps below for training the pipeline. If you only want to test the pipeline, complete the first five steps and skip the rest.
 
-#### ➡️Step1: Initialization 
-⬜ `python PedVisionCode/main.py --foldering y` for foldering\
-Use the above comment to construct all related folders for training or fine-tuning the models.
+### Step 1: Initialization 
+1. **Folder Structure Setup:**
+```
+python PedVisionCode/main.py --foldering y
+```
+   This command sets up the required folders for training or fine-tuning the models.
 
-⬜ Put images in `unlabelled_samples`\
-For training or testing the pipeline, put all images in the above-mentioned folder. The used image format is PNG, however, changing the format to other formats would not affect the pipeline training a lot. For DiCOM or other medical images, there is a need to add extra lines of code to change them to PNG. Finally, there is no need to resize your images to a constant size as this pipeline will do this if needed. 
+2. **Place Images in `unlabelled_samples`:**
+   Put all your images in the `unlabelled_samples` folder. The pipeline supports PNG images. For DICOM or other medical image formats, additional code is needed to convert them to PNG. Image resizing is handled by the pipeline as necessary.
 
-⬜ Run test script to check compatibility using `ddddddd.py` \
-The provided script will check your installation and compatibility for testing or training the code. Continue if all tests are passed.
+3. **Run Compatibility Test:**
+```
+python ddddddd.py
+```
+   This script checks your installation and compatibility for testing or training the code. Proceed if all tests pass.
 
-⬜ Download the trained weights\
-All the trained weights of the networks in the last round and foundation models are provided in the next table. We used SAM ViT_h for our pipeline but the other version works too. Download and put them in `PedVisionCode\saved_models` folder. 
-| Models  | Weights |
-| ------------- | -------------     |
-| VFM#1 (SAM ViT_h)  | Download     |
-| VFM#2 (SAM ViT_l)  | Download     |
-| VFM#3 (SAM ViT_b)  | Download     |
-| ROI model (Round=12)  | Download  |
-| CLS model (Round=12) | Download   |
+4. **Download Trained Weights:**
+   Download and place the trained weights in the `PedVisionCode/saved_models` folder.
+   | Model | Weights |
+   |-------|---------|
+   | VFM#1 (SAM ViT_h) | [Download](#) |
+   | VFM#2 (SAM ViT_l) | [Download](#) |
+   | VFM#3 (SAM ViT_b) | [Download](#) |
+   | ROI model (Round=12) | [Download](#) |
+   | CLS model (Round=12) | [Download](#) |
 
-#### ➡️Step2: First round annotation and training 
-⬜ Do image sampling `unlabelled_samples` from using `python PedVisionCode/main.py --images_sampling y --num_samp 100`\
-By `num_samp`, you can choose how many samples you need for the first round of training and also annotation using the provided scripts. The annotation procedure is fast enough. Thus, providing more examples at the first round would help the pipeline to present better results in earlier rounds. However, you can run this comment more than once and provide more samples for annotation for the first round. Please be aware that the longest manual procedure is in the first round and after the first round the automation process will help to speed up the training.
+### Step 2: First Round Annotation and Training 
+1. **Image Sampling:**
+```
+python PedVisionCode/main.py --images_sampling y --num_samp 100
+```
+   Specify the number of samples for the first round of training and annotation. More samples in the first round can improve early results.
 
-⬜ ROI annotation using `python PedVisionCode/main.py --ROI_annotation y`\
-The first and last annotation for the ROI model will be this step. Please use the above comment for image annotation for the ROI model. This script plots an image and requests a point coordinate (x,y) that is in arbitrary space within the region of interest of your project (e.g. hand region for ours). Then, it will show three resulted images that possibly cover the ROI part. you can choose to keep by `y` and to ignore by 'n'. However, for some projects, it might be a case to find ROI. You can use the CovexHull algorithm instead to specify an ROI for your data. 
+2. **ROI Annotation:**
+```
+python PedVisionCode/main.py --ROI_annotation y
+```
+   This step involves annotating the region of interest (ROI). The script requests a point coordinate within the ROI, displays the resulting images, and lets you confirm or reject them.
 
-⬜ Train ROI model using `python PedVisionCode/main.py --ROI_train y --round 0`\
-Note that round zero is the initial round. 
+3. **Train ROI Model:**
+```
+python PedVisionCode/main.py --ROI_train y --round 0
+```
+   Initial training of the ROI model.
 
-⬜ Apply VFM on masked images using `python PedVisionCode/main.py --apply_VFM y --round 0`\
-After training the ROI model, apply VFM to use masked images using ROI model predictions. This step needs enough space based on your project. We can not estimate the exact size as it is dependent on different factors like image size, image details, VFM type, and VFM parameters. However, as a rough example for 10 sample images with a size of (2460,2910), 1.65GB of processed data are saved. Note that this data can be removed after training. 
+4. **Apply VFM on Masked Images:**
+```
+python PedVisionCode/main.py --apply_VFM y --round 0
+```
+   This step processes masked images using the trained ROI model. The required storage space varies depending on factors like image size and VFM parameters.
 
-⬜ CLS annotation using `python PedVisionCode/main.py --CLS_annotation y --num_classes 5 --CLS_model_name MobileNet`\
-By running the above comment, all predicted masks using VFM will visualized with a specified number above them. The model will ask for the slice number for each class. The code considered background and irrelevant predicted parts as a separate class (class 0). Note, if the results missed a part of the image, this is not important for the training of the pipeline as the model just wants to recognize all predicted objects in the image. This step will prepare the images for the classifier network and finally save images as .npy files and labels as .txt files in relevant folders. For the mentioned 10 samples, the occupied size was 352MB. 
+5. **CLS Annotation:**
+```
+python PedVisionCode/main.py --CLS_annotation y --num_classes 5 --CLS_model_name MobileNet
+```
+   Annotate the predicted masks for classification. This step prepares images for the classifier network, saving them as `.npy` and `.txt` files.
 
-⬜ Train CLS model using `python PedVisionCode/main.py --ROI_train y --round 0 --num_classes 5`\
+6. **Train CLS Model:**
+```
+python PedVisionCode/main.py --ROI_train y --round 0 --num_classes 5
+```
 
+### Step 3: Subsequent Rounds Training 
+1. **Human-in-the-Loop (HITL) Selection:**
+```
+python PedVisionCode/main.py --HITL y --CLS_model_name MobileNet --HITL_num_samples 3 --round 0
+```
+   Validate predicted masks for each class, marking correct predictions with `y` and incorrect ones with `n`.
 
+2. **Prepare for Next Round:**
+   Move processed and confirmed images to the appropriate folders, readying the dataset for fine-tuning.
 
-The previous step will save the best trained models of the ROI and the classifier for the next rounds.
-#### ➡️Step3: Next rounds training 
-⬜ HITL for selecting the good cases using `python PedVisionCode\main.py --HITL y --CLS_model_name MobileNet --HITL_num_samples 3 --round 0 `\
-This step will show you the predicted masks for each class separately. Then will ask your opinion on that. You need to put `y` if the prediction is correct otherwise `n`. Again missed parts of the image are not important if they are missed not classied wrongly for other classes or the background class. This procedure will continue for `HITL_num_samples` images. The provided models for `CLS_model_name` are `MobileNet`, `EffiB1` for EfficientNetB1, and `EffiB5` for EfficientNetB5. Note that very small mistakes can be ignored in the first rounds but not the last ones. 
+3. **Fine-tune ROI Model:**
+```
+python PedVisionCode/main.py --ROI_train y --round 1 --fine_tune y
+```
+4. **Apply VFM on Masked Images:**
+```
+python PedVisionCode/main.py --apply_VFM y --round 1
+```
+5. **Fine-tune CLS Model:**
+```
+python PedVisionCode/main.py --ROI_train y --round 1 --fine_tune y --num_classes 5
+```
+6. **Repeat Step 3 for Subsequent Rounds:**
 
-⬜ Preparing for the next round\
-This step will move all the processed and confirmed images to the related folders and prepare the dataset for the fine-tuning ROI and CLS models in the next rounds. 
+## Testing the Pipeline
+To test the trained PedVision pipeline, follow the Step 1 checklist, then run:
+```
+# Add the specific command for testing here
+```
 
-⬜ fine-tuning ROI model using `python PedVisionCode/main.py --ROI_train y --round 1 --fine_tune y`\
-⬜ Apply VFM on masked images using `python PedVisionCode/main.py --apply_VFM y --round 1`\
-As the results of the ROI model affect the inputs of the next networks, it is crucial to do this step and update the training set. 
+## Other Considerations
 
-⬜ fine-tuning CLS model using `python PedVisionCode/main.py --ROI_train y --round 1 --fine_tune y --num_classes 5`
-⬜ Repeat Step3 for the next rounds
-
-
-## Test the pipeline
-For testing the trained PedVision pipeline, follow the Step1 checklist. Then use the following comment to see the prediction results. 
-
-## Other consideration
-
-#### Changing CLS model
-If you need to use other networks for the CLS or ROI model, use `--fine-tuning n` option in the comment and add your own network in the code instead. As the training samples are updated each round, using larger networks for the CLS or ROI model in the later rounds will boost the results. 
+### Changing CLS Model
+To use different networks for the CLS or ROI model, use the `--fine-tuning n` option and modify the code to include your network. Larger networks can improve results in later rounds.
 
 ## ToDo
-⬜ Adding test dependency \
-⬜ Cloning the repo and testing on different devices 
-⬜ Adding recorded video
+- [ ] Add test dependencies
+- [ ] Clone the repo and test on different devices
+- [ ] Add recorded video tutorial
+
+## License
+This project is licensed under the terms of the MIT license.
