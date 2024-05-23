@@ -1,6 +1,6 @@
 
 # PedVision
-Here is the official code for testing and training " Object Level Segmentation for Overcoming Data Scarcity and Variability of Pediatric Images Using Centralized Visual Foundation Model" paper. We would be happy to resolve the issues if you open up an issue here. This is a short video tutorial if you need to follow the steps. The following image shows the pipeline (see the paper for more details) and we go through the codes for each part in the following. 
+Here is the official code for testing and training "Object Level Segmentation for Overcoming Data Scarcity and Variability of Pediatric Images Using Centralized Visual Foundation Model" paper. We would be happy to resolve the issues if you open up an issue here. This is a short video tutorial if you need to follow the steps. The following image shows the pipeline (see the paper for more details) and we go through the codes for each part in the following. 
 ![pipeline](https://github.com/mohofar/PedVision/blob/main/git_images/Pipeline.jpg)
 
 ## Table of Contents
@@ -29,12 +29,12 @@ The provided script will check your installation and compatibility for testing o
 ⬜ Download the trained weights\
 All the trained weights of the networks in the last round and foundation models are provided in the next table. We used SAM ViT_h for our pipeline but the other version works too. Download and put them in `PedVisionCode\saved_models` folder. 
 | Models  | Weights |
-| ------------- | ------------- |
-| VFM#1 (SAM ViT_h)  | Download  |
-| VFM#2 (SAM ViT_l)  | Download  |
-| VFM#3 (SAM ViT_b)  | Download  |
+| ------------- | -------------     |
+| VFM#1 (SAM ViT_h)  | Download     |
+| VFM#2 (SAM ViT_l)  | Download     |
+| VFM#3 (SAM ViT_b)  | Download     |
 | ROI model (Round=12)  | Download  |
-| CLS model (Round=12) | Download  |
+| CLS model (Round=12) | Download   |
 
 #### ➡️Step2: First round annotation and training 
 ⬜ Do image sampling `unlabelled_samples` from using `python PedVisionCode/main.py --images_sampling y --num_samp 100`\
@@ -75,3 +75,8 @@ For testing the trained PedVision pipeline, please you should follow the step1 c
 
 #### Changing CLS model
 If you need to use other networks for the CLS or ROI model, use `--fine-tuning n` option in the comment and add your own network in the code instead. As the training samples are updated each round, using larger networks for the CLS or ROI model in the later rounds will boost the results. 
+
+## ToDo
+⬜ Adding test dependency \
+⬜ Adding other images of annotation\
+⬜ Cloning the repo and testing on different devices 
