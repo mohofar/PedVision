@@ -104,14 +104,14 @@ python PedVisionCode/main.py --apply_VFM y --round 1
 ```
 5. **Fine-tune CLS Model:**
 ```
-python PedVisionCode/main.py --ROI_train y --round 1 --fine_tune y --num_classes 5
+python PedVisionCode/main.py --CLS_train y --round 1 --fine_tune y --num_classes 5
 ```
 6. **Repeat Step 3 for Subsequent Rounds:**
 
 ## Testing the Pipeline
-To test the trained PedVision pipeline, follow the Step 1 checklist, then run:
+To test the trained PedVision pipeline, follow the Step 1 checklist. Just instead of putting your test images in `unlabelled_samples`, put them in `test_data\input\` folder. After first running the following comment, all processed images will be saved in related folders and the next time you run it, you will get the visualization result very fast for each ìmg_name`you select. 
 ```
-# Add the specific command for testing here
+python PedVisionCode/main.py  --round 1 --num_classes 5 --test_model y --img_name 8992
 ```
 
 ## Other Considerations
