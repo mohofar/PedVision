@@ -117,7 +117,7 @@ python PedVisionCode/main.py  --round 1 --num_classes 5 --test_model y --img_nam
 ## Other Considerations
 
 ### Changing CLS Model
-To use different networks for the CLS or ROI model, use the `--fine-tuning n` option and modify the code to include your network. Larger networks can improve results in later rounds.
+To use different networks for the CLS or ROI model, use the `--fine_tuning n` option and modify the code to include your network. Larger networks can improve results in later rounds.
 
 ## ToDo
 - [ ] Add test dependencies
