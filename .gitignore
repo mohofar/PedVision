@@ -1,11 +1,4 @@
 PedVisionCode/saved_models/*.pth 
-PedVisionCode/unlabelled_samples/*.png
 PedVisionCode/utils/__pycache__/*
 PedVisionCode/__pycache__/*
-
-PedVisionCode/classifier_samples/*
-PedVisionCode/new_training/*.pkl
-PedVisionCode/temp_results/*
 *.md
-PedVisionCode/ROI_samples/*
-test_data/*
