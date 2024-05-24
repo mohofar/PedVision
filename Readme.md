@@ -32,13 +32,8 @@ python PedVisionCode/main.py --foldering y
 2. **Place Images in `unlabelled_samples`:**
    Put all your images in the `unlabelled_samples` folder. The pipeline supports PNG images. For DICOM or other medical image formats, additional code is needed to convert them to PNG. Image resizing is handled by the pipeline as necessary.
 
-3. **Run Compatibility Test:**
-```
-python ddddddd.py
-```
-   This script checks your installation and compatibility for testing or training the code. Proceed if all tests pass.
 
-4. **Download Trained Weights:**
+3. **Download Trained Weights:**
    Download and place the trained weights in the `PedVisionCode/saved_models` folder.
    | Model | Weights |
    |-------|---------|
@@ -104,23 +99,23 @@ python PedVisionCode/main.py --apply_VFM y --round 1
 ```
 5. **Fine-tune CLS Model:**
 ```
-python PedVisionCode/main.py --ROI_train y --round 1 --fine_tune y --num_classes 5
+python PedVisionCode/main.py --CLS_train y --round 1 --fine_tune y --num_classes 5
 ```
-6. **Repeat Step 3 for Subsequent Rounds:**
+6. **Repeat Step 3 for Subsequent Rounds**
 
 ## Testing the Pipeline
-To test the trained PedVision pipeline, follow the Step 1 checklist, then run:
+To test the trained PedVision pipeline, follow the Step 1 checklist. Just instead of putting your test images in `unlabelled_samples`, put them in `test_data\input\` folder. After first running the following comment, all processed images will be saved in related folders and the next time you run it, you will get the visualization result very fast for each `img_name`you select. 
 ```
-# Add the specific command for testing here
+python PedVisionCode/main.py  --round 1 --num_classes 5 --test_model y --img_name 8992
 ```
 
 ## Other Considerations
 
 ### Changing CLS Model
-To use different networks for the CLS or ROI model, use the `--fine-tuning n` option and modify the code to include your network. Larger networks can improve results in later rounds.
+To use different networks for the CLS or ROI model, use the `--fine_tuning n` option and modify the code to include your network. Larger networks can improve results in later rounds.
 
 ## ToDo
-- [ ] Add test dependencies
+- Upload trained weights
 - [ ] Clone the repo and test on different devices
 - [ ] Add recorded video tutorial
 
