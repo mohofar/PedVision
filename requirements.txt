@@ -6,8 +6,4 @@ scikit-image==0.22.0
 pillow==10.2.0
 segmentation-models-pytorch==0.3.3
 tqdm==4.66.2
-<<<<<<< HEAD
 scikit-learn==1.4.1.post1
-=======
-scikit-learn==1.4.1.post1
->>>>>>> 706d4422931a42189fb52fc92190c8d1661cbba2
