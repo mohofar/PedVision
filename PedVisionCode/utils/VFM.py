@@ -151,7 +151,7 @@ def get_masks(main_path, image_name, mask_generator, model_ROI):
     return [y_min, y_max, x_min, x_max], original_croped_shape, masks_masked, image2
 
 
-def main(round):
+def main(round, images_folder = "PedVisionCode/classifier_samples/images/train/", results_folder = "PedVisionCode/classifier_samples/masks/train/"):
 
     sam_checkpoint = "PedVisionCode/saved_models/sam_vit_h_4b8939.pth"
     model_type = "vit_h"
@@ -183,12 +183,13 @@ def main(round):
     model_ROI.load_state_dict(torch.load(model_path))
     model_ROI.eval()  # Set the model to evaluation mode
 
-    # Create a grid to display the images
-    images_folder = "PedVisionCode/classifier_samples/images/train/"
-    results_folder = "PedVisionCode/classifier_samples/masks/train/"
+    # # Create a grid to display the images
+    # images_folder = "PedVisionCode/classifier_samples/images/train/"
+    # results_folder = "PedVisionCode/classifier_samples/masks/train/"
     for image_filename in tqdm(os.listdir(images_folder)):
-        mask_filename = f"{image_filename[:-4]}_mask.pkl"
+        mask_filename = f"org_mask_{image_filename[:-4]}.pkl"
         if os.path.exists(os.path.join(results_folder, mask_filename)):
+            print(f"Skipping {image_filename} as it already exists in the results folder")
             continue
 
         img = Image.open(os.path.join(images_folder, image_filename)) 

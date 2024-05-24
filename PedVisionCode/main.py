@@ -12,6 +12,7 @@ from PedVisionCode.utils import train_cls_model
 from PedVisionCode.utils import HITL
 from PedVisionCode.utils import next_round_preparing
 
+from PedVisionCode.utils import test_cls_model
 
 def main():
   # Create the argument parser
@@ -33,6 +34,9 @@ def main():
   parser.add_argument('--HITL_num_samples', type=int, default=2, help='Number of samples to be taken from unlabelled_samples folder for HITL round')
   parser.add_argument('--prepare_next_round', type=str, default='n', help='y/n to prepare the dataset for the next round')
   parser.add_argument('--fine_tune', type=str, default='n', help='y/n to fine-tune the models')
+
+  parser.add_argument('--test_model', type=str, default='n', help='y/n to test the classifier model')
+  parser.add_argument('--img_name', type=str, help='Image name')
 
   # Parse the command-line arguments
   args = parser.parse_args()
@@ -71,6 +75,10 @@ def main():
     print('Preparing for the next round...')
     next_round_preparing.main()
 
+  if args.test_model =='y':
+    print('Testing model...')
+    VFM.main(round=args.round, images_folder = 'test_data/input/', results_folder = "test_data/predicted/VFM/")
+    test_cls_model.main(rounds=args.round, cls_num=args.num_classes, model_name=args.CLS_model_name, img_name=args.img_name, num_classes=args.num_classes)
 
 if __name__ == "__main__":
   main()
