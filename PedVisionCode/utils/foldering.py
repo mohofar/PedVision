@@ -25,10 +25,10 @@ def construct_folders():
         'PedVisionCode/unlabelled_samples',
         'PedVisionCode/temp_results',
         'PedVisionCode/new_training',
-        'test_data',
-        'test_data/predicted',
-        'test_data/input',
-        'test_data/prepared/VFM'
+        'PedVisionCode/test_data',
+        'PedVisionCode/test_data/predicted',
+        'PedVisionCode/test_data/input',
+        'PedVisionCode/test_data/prepared/VFM'
     ]
 
     for folder in folders:

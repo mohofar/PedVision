@@ -77,7 +77,7 @@ def main():
 
   if args.test_model =='y':
     print('Testing model...')
-    VFM.main(round=args.round, images_folder = 'test_data/input/', results_folder = "test_data/predicted/VFM/")
+    VFM.main(round=args.round, images_folder = 'PedVisionCode/test_data/input/', results_folder = "PedVisionCode/test_data/predicted/VFM/")
     test_cls_model.main(rounds=args.round, cls_num=args.num_classes, model_name=args.CLS_model_name, img_name=args.img_name, num_classes=args.num_classes)
 
 if __name__ == "__main__":

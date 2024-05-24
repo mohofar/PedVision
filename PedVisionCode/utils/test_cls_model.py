@@ -16,7 +16,7 @@ def prepare_data_and_model_classifier(rounds, cls_num, model_name, img_name):
 
 
     # Path to the directory containing the .npy files
-    directory_path = 'test_data\predicted/'
+    directory_path = 'PedVisionCode/test_data\predicted/'
 
     # Get a list of all final_image files
     test_files = directory_path + 'VFM/for_cls_net_'+img_name+'.npy'
@@ -69,7 +69,7 @@ def main(rounds, cls_num, model_name, img_name, num_classes):
             all_preds.extend(preds.numpy())
 
     
-    with open('test_data\predicted\VFM\org_mask_'+img_name+'.pkl', 'rb') as f:
+    with open('PedVisionCode/test_data\predicted\VFM\org_mask_'+img_name+'.pkl', 'rb') as f:
         mask_np = pickle.load(f)
     image_final = np.zeros((mask_np[0]['segmentation'].shape[0], mask_np[0]['segmentation'].shape[1], num_classes), dtype=np.bool_)
     for i in range(len(mask_np)):
