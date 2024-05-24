@@ -13,7 +13,7 @@ Welcome to the official code repository for the paper "Object Level Segmentation
 6. [License](#license)
 
 ## Dependencies Installation
-To install the necessary libraries, use the `requirements.txt` file:
+We used Python 3.10.12 for this project. To install the necessary libraries, use the `requirements.txt` file:
 ```
 pip install -r requirements.txt
 ```
