@@ -30,18 +30,18 @@ python PedVisionCode/main.py --foldering y
    This command sets up the required folders for training or fine-tuning the models.
 
 2. **Place Images in `unlabelled_samples`:**
-   Put all your images in the `unlabelled_samples` folder. The pipeline supports PNG images. For DICOM or other medical image formats, additional code is needed to convert them to PNG. Image resizing is handled by the pipeline as necessary.
+   Put all your images in the `unlabelled_samples` folder. Note that the pipeline is based on PNG image and for DICOM or other medical image formats, additional code is needed to convert them to PNG. 
 
 
 3. **Download Trained Weights:**
    Download and place the trained weights in the `PedVisionCode/saved_models` folder.
    | Model | Weights |
    |-------|---------|
-   | VFM#1 (SAM ViT_h) | [Download](#) |
-   | VFM#2 (SAM ViT_l) | [Download](#) |
-   | VFM#3 (SAM ViT_b) | [Download](#) |
-   | ROI model (Round=12) | [Download](#) |
-   | CLS model (Round=12) | [Download](#) |
+   | VFM#1 (SAM ViT_h) | [Download](https://drive.google.com/file/d/1wo75Nv-FrvFtIpm1VeHQTszVrp_inTkL/view?usp=drive_link])|
+   | VFM#2 (SAM ViT_l) | [Download](https://drive.google.com/file/d/1nO191wyKFaVoEU6yu9wdVRuZrn-YYU5U/view?usp=drive_link) |
+   | VFM#3 (SAM ViT_b) | [Download](https://drive.google.com/file/d/1tRtLQ1Yx1GQ-rardyakvyzg63bbppjD4/view?usp=drive_link)|
+   | ROI model (last Round) | [Download](https://drive.google.com/file/d/1qMhAg1cy0s1gJpYOeZWSqvxYraRTTQW-/view?usp=drive_link) |
+   | CLS model (last Round) | [Download](https://drive.google.com/file/d/18C3TWfHlCUdBm4cRxUdLij52cJoEZlf6/view?usp=drive_link) |
 
 ### Step 2: First Round Annotation and Training 
 1. **Image Sampling:**
@@ -76,7 +76,7 @@ python PedVisionCode/main.py --CLS_annotation y --num_classes 5 --CLS_model_name
 
 6. **Train CLS Model:**
 ```
-python PedVisionCode/main.py --ROI_train y --round 0 --num_classes 5
+python PedVisionCode/main.py --CLS_train y --round 0 --num_classes 5
 ```
 
 ### Step 3: Subsequent Rounds Training 
