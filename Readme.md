@@ -76,7 +76,7 @@ python PedVisionCode/main.py --CLS_annotation y --num_classes 5 --CLS_model_name
 
 6. **Train CLS Model:**
 ```
-python PedVisionCode/main.py --ROI_train y --round 0 --num_classes 5
+python PedVisionCode/main.py --CLS_train y --round 0 --num_classes 5
 ```
 
 ### Step 3: Subsequent Rounds Training 
