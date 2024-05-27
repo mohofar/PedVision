@@ -40,6 +40,8 @@ def label_images(data, npy_file, mode='train', cls_num=5):
 
         user_input = input("Enter indices (',' sparated) for class {}: ".format(cls+1))
         
+        if user_input == '':
+            continue
         indices = list(map(int, user_input.split(',')))
         #remove empty elements
         print(indices)
@@ -73,7 +75,7 @@ def main(cls_num):
     # Iterate through each npy file
     for npy_file in tqdm(npy_files):
         # Skip if the file exists
-        if os.path.exists('PedVisionCodee/classifier_samples/labels/'+str(mode)+'/'+npy_file[:-4]+'.txt'):
+        if os.path.exists('PedVisionCode/classifier_samples/labels/'+str(mode)+'/'+npy_file[:-4]+'.txt'):
             continue
         else:
             # Load the npy file

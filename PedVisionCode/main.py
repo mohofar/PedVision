@@ -1,6 +1,6 @@
 import argparse
 import sys
-sys.path.append('C:/projects/PedVision')
+sys.path.append(r'C:\Users\HAG_M\Downloads\PedVision-main (1)\PedVision-main')
 
 from PedVisionCode.utils import foldering
 from PedVisionCode.utils import sample_images
@@ -19,22 +19,23 @@ def main():
   parser = argparse.ArgumentParser(description='PedVisionCode')
 
   # Add any command-line arguments you need
-  parser.add_argument('--num_classes', type=int, default=2, help='Number of classes')
+  parser.add_argument('--num_classes', type=int, default=5, help='Number of classes')
   parser.add_argument('--foldering', type=str, default='n', help='y/n to create folders')
   parser.add_argument('--images_sampling', type=str, default='n', help=' y/n sample images from unlabelled_samples folder to ROI image folder and classifier image folder')
   parser.add_argument('--num_samp', type=int, default=2, help='Number of samples to be taken from unlabelled_samples folder for init round and annotation round')
   parser.add_argument('--ROI_annotation', type=str, default='n', help='y/n to run the ROI annotation framework')
   parser.add_argument('--round', type=int, default=0, help='round number starting 0 to n')
   parser.add_argument('--ROI_train', type=str, default='n', help='y/n to train the ROI model')
+  parser.add_argument('--num_epochs_ROI', type=int, default=10, help='Number of epochs for ROI model training')
   parser.add_argument('--apply_VFM', type=str, default='n', help='y/n Apply Foundation model to get masks')
   parser.add_argument('--CLS_annotation', type=str, default='n', help='y/n to run the classifier annotation framework')
   parser.add_argument('--CLS_train', type=str, default='n', help='y/n to train the classification model')
+  parser.add_argument('--num_epochs_CLS', type=int, default=10, help='Number of epochs for classifier model training')
   parser.add_argument('--HITL', type=str, default='n', help='y/n to run the Human-In-The-Loop framework')
   parser.add_argument('--CLS_model_name', type=str, default='MobileNet', help='MobileNet, EffiB1, or EffiB5')
   parser.add_argument('--HITL_num_samples', type=int, default=2, help='Number of samples to be taken from unlabelled_samples folder for HITL round')
   parser.add_argument('--prepare_next_round', type=str, default='n', help='y/n to prepare the dataset for the next round')
   parser.add_argument('--fine_tune', type=str, default='n', help='y/n to fine-tune the models')
-
   parser.add_argument('--test_model', type=str, default='n', help='y/n to test the classifier model')
   parser.add_argument('--img_name', type=str, help='Image name')
 
@@ -53,7 +54,7 @@ def main():
 
   if args.ROI_train =='y':
     print('Training ROI model...')
-    train_roi_model.main(args.round, args.fine_tune)
+    train_roi_model.main(args.round, args.fine_tune, args.num_epochs_ROI)
 
   if args.apply_VFM =='y':
     print('VFM is running...')
@@ -65,7 +66,7 @@ def main():
 
   if args.CLS_train =='y': 
     print('Training classifier model...')
-    train_cls_model.main(args.round, args.fine_tune, args.num_classes, args.CLS_model_name)
+    train_cls_model.main(args.round, args.fine_tune, args.num_classes, args.CLS_model_name, args.num_epochs_CLS)
 
   if args.HITL =='y':
     print('Human-In-The-Loop is running...')

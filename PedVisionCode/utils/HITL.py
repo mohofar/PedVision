@@ -86,7 +86,6 @@ def hand_prediction(image_path, model_ROI, show=False):
         break
 
 
-
 def get_masks(main_path, image_name, model_ROI,mask_generator_2):
     image = cv2.imread(main_path+image_name)
     original_croped_shape = image.shape
@@ -159,7 +158,7 @@ def load_model_and_predict(mask, model_name ,model_path, cls_num):
     
     # Initialize the model structure
     if(model_name == 'MobileNet'):
-        model_cls = models.mobilenet_v2(weights=None)
+        model_cls = models.mobilenet_v2(weights=models.MobileNet_V2_Weights.IMAGENET1K_V1)
         model_cls.classifier[1] = nn.Linear(model_cls.last_channel, cls_num)
     elif(model_name == 'EffiB1'):
         model_cls = models.efficientnet_b1(weights=models.EfficientNet_B1_Weights.IMAGENET1K_V1)
@@ -196,14 +195,14 @@ def pipeline(main_path, image_name, image_num, model_name, model_path, model_ROI
     masks = remove_covered_seg(masks)
     final_masks = final_masks_preparing(masks, img1)
     prediction = load_model_and_predict(final_masks, model_name, model_path, cls_num)
-    for bone in range(1,cls_num): 
+    for bone in range(0,cls_num): 
         overal_mask = np.zeros((masks[0]['segmentation'].shape))
         for i in range(len(prediction)):
             if(prediction[i].numpy() == bone):
                 overal_mask = overal_mask + masks[i]['segmentation']
         
 
-        plt.subplot(1,4,bone)
+        plt.subplot(1,5,bone+1)
         plt.imshow(img1)
         plt.imshow(overal_mask.astype(np.bool_), alpha=0.7)
         plt.title(image_num)
@@ -212,8 +211,8 @@ def pipeline(main_path, image_name, image_num, model_name, model_path, model_ROI
 
 def main(num_new_cases, model_name,  round, cls_num):
     main_path = 'PedVisionCode/unlabelled_samples/'
-    CLS_model_path = 'PedVisionCode\saved_models\CLS_model_R'+str(round)+'-1.pth'
-    ROI_model_path = 'PedVisionCode\saved_models\ROI_model_R'+str(round)+'-1.pth'
+    CLS_model_path = 'PedVisionCode\saved_models\CLS_model_R'+str(round)+'.pth'
+    ROI_model_path = 'PedVisionCode\saved_models\ROI_model_R'+str(round)+'.pth'
     sam_checkpoint = "PedVisionCode\saved_models\sam_vit_h_4b8939.pth" 
     model_type = "vit_h"
 
@@ -245,6 +244,7 @@ def main(num_new_cases, model_name,  round, cls_num):
     model_ROI.eval()  # Set the model to evaluation mode
     image_files = [file for file in os.listdir(main_path) if file.endswith('.png')]
     #suffel the list
+    np.random.shuffle(image_files)
     image_files = image_files[:num_new_cases]
     # Process each image file
     list_image_names = []

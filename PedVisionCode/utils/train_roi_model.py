@@ -196,9 +196,7 @@ def train_model(model, train_loader, val_loader, criterion, optimizer, num_epoch
             torch.save(model.state_dict(), model_path)
 
 
-def main(rounds, fine_tune):
-    list_id = glob('PedVisionCode/ROI_samples/images/train/*.png')
-    print(len(list_id), list_id[:5])
+def main(rounds, fine_tune, num_epochs):
 
     # Set paths to your image and mask directories
     image_dir = 'PedVisionCode/ROI_samples/images'
@@ -206,7 +204,6 @@ def main(rounds, fine_tune):
     custom_transform = CustomTransformTrain()
     dataset_tr = CustomDataset(image_dir + '/train/', mask_dir + '/train/', transform=custom_transform)
     dataset_va = CustomDataset(image_dir + '/valid/', mask_dir + '/valid/', transform=custom_transform)
-
     print(len(dataset_tr), len(dataset_va))
 
     train_loader = DataLoader(dataset_tr, batch_size=4, shuffle=True)
@@ -227,9 +224,8 @@ def main(rounds, fine_tune):
 
     criterion = smp.losses.DiceLoss(smp.losses.BINARY_MODE, from_logits=True)
     optimizer = optim.Adam(model.parameters(), lr=0.0001)
-    num_epochs = 2
     train_model(model, train_loader, val_loader, criterion, optimizer, num_epochs, rounds, convex=True)
 
 
 # if __name__ == "__main__":
-#     main(rounds)
+#     main(rounds=0, fine_tune='n', num_epochs=10)

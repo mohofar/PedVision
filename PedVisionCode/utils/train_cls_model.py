@@ -77,14 +77,16 @@ def prepare_data_and_model_classifier(rounds, fine_tune, cls_num, model_name):
     train_loader = DataLoader(train_dataset_transformed, batch_size=32, shuffle=True)
     valid_loader = DataLoader(valid_dataset, batch_size=32)
     if(model_name == 'MobileNet'):
+        print('MobileNet model is selected')
         model = models.mobilenet_v2(weights=models.MobileNet_V2_Weights.IMAGENET1K_V1)
         model.classifier[1] = nn.Linear(model.last_channel, cls_num)
     elif(model_name == 'EffiB1'):
+        print('EfficientNet-B1 model is selected')
         model = models.efficientnet_b1(weights=models.EfficientNet_B1_Weights.IMAGENET1K_V1)
         in_features = model.classifier[-1].in_features
         model.classifier[-1] = nn.Linear(in_features, cls_num)
     elif(model_name == 'EffiB5'):
-        
+        print('EfficientNet-B5 model is selected')
         model = models.efficientnet_b5(weights=models.EfficientNet_B5_Weights.IMAGENET1K_V1)
         in_features = model.classifier[-1].in_features
         model.classifier[-1] = nn.Linear(in_features, cls_num)
@@ -101,8 +103,7 @@ def prepare_data_and_model_classifier(rounds, fine_tune, cls_num, model_name):
     optimizer = optim.Adam(model.parameters(), lr=0.001)
     return train_loader, valid_loader, model, criterion, optimizer
 
-def main(rounds, fine_tune, cls_num, model_name):
-    epochs = 10
+def main(rounds, fine_tune, cls_num, model_name, epochs):
     save_path='PedVisionCode/saved_models/CLS_model_R'+str(rounds)+'.pth'
 
     best_accuracy = 0.0
