@@ -122,6 +122,7 @@ python PedVisionCode/main.py  --round 1 --num_classes 5 --test_model y --img_nam
 
 ## ToDo
 - [ ] Add recorded video tutorial
+- [ ] Colab demo
 
 ## License
 This project is licensed under the terms of the MIT license.
