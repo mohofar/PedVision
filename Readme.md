@@ -57,6 +57,7 @@ python PedVisionCode/main.py --images_sampling y --num_samp 100
 python PedVisionCode/main.py --ROI_annotation y
 ```
    This step involves annotating the region of interest (ROI). The script requests a point coordinate within the ROI, displays the resulting images, and lets you confirm or reject them. 
+   
    **Note for the first round:** Please separate some informative cases (by their ID) from ROI training folders and put them in validation folders. 
    Training folders: `PedVisionCode\ROI_samples\images\train` and `PedVisionCode\ROI_samples\images\valid` 
    Validation folders: `PedVisionCode\ROI_samples\masks\train` and `PedVisionCode\ROI_samples\masks\valid` 
@@ -114,15 +115,10 @@ python PedVisionCode/main.py --HITL y --CLS_model_name EffiB5 --HITL_num_samples
 3. **Repeat Step 2 and 3 for Subsequent Rounds**
 
 ## Testing the Pipeline
-To test the trained PedVision pipeline, follow the Step 1 checklist. Just instead of putting your test images in `unlabelled_samples`, put them in `test_data\input\` folder. After first running the following comment, all processed images will be saved in related folders and the next time you run it, you will get the visualization result very fast for each `img_name`you select. 
+To test the trained PedVision pipeline, follow the Step 1 checklist. Just put your images in `test_data\input\` folder. After first running the following comment, all processed images will be saved in related folders and the next time you run it, you will get the visualization result very fast for each `img_name`you select. The following is an example of testing on the `8992.png` image.
 ```
 python PedVisionCode/main.py  --round 1 --num_classes 5 --test_model y --img_name 8992
 ```
-
-## Other Considerations
-
-### Changing CLS Model
-To use different networks for the CLS or ROI model, use the `--fine_tuning n` option and modify the code to include your network. Larger networks can improve results in later rounds.
 
 ## ToDo
 - [ ] Add recorded video tutorial
