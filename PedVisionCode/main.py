@@ -1,6 +1,7 @@
 import argparse
 import sys
-sys.path.append(r'C:\Users\HAG_M\Downloads\PedVision-main (1)\PedVision-main')
+# sys.path.append(r'C:\Users\HAG_M\Downloads\PedVision-main (1)\PedVision-main')
+sys.path.append('/content/PedVision')
 
 from PedVisionCode.utils import foldering
 from PedVisionCode.utils import sample_images
@@ -38,7 +39,7 @@ def main():
   parser.add_argument('--fine_tune', type=str, default='n', help='y/n to fine-tune the models')
   parser.add_argument('--test_model', type=str, default='n', help='y/n to test the classifier model')
   parser.add_argument('--img_name', type=str, help='Image name')
-
+  parser.add_argument('--test', type=str, default=False)
   # Parse the command-line arguments
   args = parser.parse_args()
 
@@ -58,7 +59,7 @@ def main():
 
   if args.apply_VFM =='y':
     print('VFM is running...')
-    VFM.main(args.round)
+    VFM.main(args.round, args.test)
   
   if args.CLS_annotation =='y':
     print('Classifier annotation is running...')
