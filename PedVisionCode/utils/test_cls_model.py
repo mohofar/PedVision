@@ -16,7 +16,7 @@ def prepare_data_and_model_classifier(rounds, cls_num, model_name, img_name):
 
 
     # Path to the directory containing the .npy files
-    directory_path = 'PedVisionCode/test_data\predicted/'
+    directory_path = 'PedVisionCode/test_data/predicted/'
 
     # Get a list of all final_image files
     test_files = directory_path + 'VFM/for_cls_net_'+img_name+'.npy'
@@ -50,8 +50,7 @@ def prepare_data_and_model_classifier(rounds, cls_num, model_name, img_name):
     else:
         print('Specify the model name: MobileNet, EffiB1, or EffiB5')
 
-    model.load_state_dict(torch.load('PedVisionCode\saved_models\CLS_model_R'+str(rounds)+'.pth'))
-
+    model.load_state_dict(torch.load('PedVisionCode/saved_models/CLS_model_R'+str(rounds)+'.pth'))
     return test_loader, model
 
 def main(rounds, cls_num, model_name, img_name, num_classes):
@@ -69,18 +68,22 @@ def main(rounds, cls_num, model_name, img_name, num_classes):
             all_preds.extend(preds.numpy())
 
     
-    with open('PedVisionCode/test_data\predicted\VFM\org_mask_'+img_name+'.pkl', 'rb') as f:
+    with open('PedVisionCode/test_data/predicted/VFM/org_mask_'+img_name+'.pkl', 'rb') as f:
         mask_np = pickle.load(f)
     image_final = np.zeros((mask_np[0]['segmentation'].shape[0], mask_np[0]['segmentation'].shape[1], num_classes), dtype=np.bool_)
     for i in range(len(mask_np)):
       image_final[:,:,all_preds[i]] = image_final[:,:,all_preds[i]] + mask_np[i]['segmentation'].astype(np.bool_)
 
-    plt.figure(figsize=(10,10))
+    print(image_final.shape)
+    plt.figure(figsize=(5,5))
     for i in range(num_classes):
         plt.subplot(1,num_classes,i+1)
         plt.imshow(image_final[:,:,i])
         plt.axis('off')
         plt.title('Class '+str(i))
+    plt.tight_layout()
+    plt.savefig('PedVisionCode/test_data/prepared/'+img_name+"_pred.png", format="png", dpi=300)
+
     plt.show()
 
                     
