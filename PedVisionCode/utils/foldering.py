@@ -28,7 +28,8 @@ def construct_folders():
         'PedVisionCode/test_data',
         'PedVisionCode/test_data/predicted',
         'PedVisionCode/test_data/input',
-        'PedVisionCode/test_data/predicted/VFM'
+        'PedVisionCode/test_data/predicted/VFM',
+        'PedVisionCode/test_data/prepared'
     ]
 
     for folder in folders:
