@@ -39,7 +39,6 @@ def main():
   parser.add_argument('--fine_tune', type=str, default='n', help='y/n to fine-tune the models')
   parser.add_argument('--test_model', type=str, default='n', help='y/n to test the classifier model')
   parser.add_argument('--img_name', type=str, help='Image name')
-  parser.add_argument('--test', type=str, default=False)
   # Parse the command-line arguments
   args = parser.parse_args()
 
@@ -59,7 +58,7 @@ def main():
 
   if args.apply_VFM =='y':
     print('VFM is running...')
-    VFM.main(args.round, args.test)
+    VFM.main(args.round, test=False)
   
   if args.CLS_annotation =='y':
     print('Classifier annotation is running...')
@@ -79,7 +78,7 @@ def main():
 
   if args.test_model =='y':
     print('Testing model...')
-    VFM.main(round=args.round, images_folder = 'PedVisionCode/test_data/input/', results_folder = "PedVisionCode/test_data/predicted/VFM/")
+    VFM.main(round=args.round, test=True)
     test_cls_model.main(rounds=args.round, cls_num=args.num_classes, model_name=args.CLS_model_name, img_name=args.img_name, num_classes=args.num_classes)
 
 if __name__ == "__main__":
