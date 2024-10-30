@@ -1,6 +1,6 @@
 # PedVision
 
-This is the official code repository for the paper "Object Level Segmentation for Overcoming Data Scarcity and Variability of Pediatric Images Using Centralized Visual Foundation Model". A short video tutorial is also available to help you follow the steps. The image below outlines the pipeline (see the paper for more details), and we will walk you through the code for each part in the sections below.
+This is the official code repository for the paper "PedVision: Integrating human-in-the-loop with visual foundation models for age-agnostic pediatric hand bone segmentation". The image below outlines the pipeline (see the paper for more details), and we will walk you through the code for each part in the sections below.
 
 ![pipeline](https://github.com/mohofar/PedVision/blob/main/git_images/pipeline_.png)
 
@@ -17,11 +17,11 @@ We used Python 3.10.12 for this project. To install the necessary libraries, use
 ```
 pip install -r requirements.txt
 ```
-For PyTorch libraries, we recommend using PyTorch version `2.0.0+cu118` and Torchvision version `0.15.1+cu118` for full compatibility.
-Before starting training or testing the pipeline, please update the PATH in `sys.path.append(r'C:\Users\HAG_M\Downloads\PedVision-main (1)\PedVision-main')
+For PyTorch libraries, we recommend using PyTorch version `2.3.1+cu121` and Torchvision version `0.18.1+cu121` for full compatibility.
+Before starting training or testing the pipeline, please update the PATH in `sys.path.append(r'/content/PedVision')
 ` in main.py file based on your location of the downloaded repo. 
 ## Training 
-Follow the steps below for training the pipeline. If you only want to test the pipeline, complete the whole step 1 and skip the rest.
+Follow the steps below for training the pipeline. If you only want to test the pipeline, complete step 1 and skip the rest.
 
 
 ### Step 1: Initialization 
