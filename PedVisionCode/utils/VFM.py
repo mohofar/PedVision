@@ -153,11 +153,11 @@ def get_masks(main_path, image_name, mask_generator, model_ROI):
 
 def main(round, test=False):
     images_folder = "PedVisionCode/classifier_samples/images/train/"
-    results_folder = "PedVisionCode/classifier_samples/masks/train/"
+    results_folder = "PedVisionCode/classifier_sampless/masks/train/"
     if test==True:
-        images_folder = "PedVisionCode/test_data/input"
-        results_folder = "PedVisionCode/test_data/predicted/VFM"
-
+        images_folder = "PedVisionCode/test_data/input/"
+        results_folder = "PedVisionCode/test_data/predicted/VFM/"
+    print(images_folder, results_folder)
     sam_checkpoint = "PedVisionCode/saved_models/sam_vit_h_4b8939.pth"
     model_type = "vit_h"
     device = "cuda"
@@ -167,7 +167,7 @@ def main(round, test=False):
 
     mask_generator = SamAutomaticMaskGenerator(
         model=sam,
-        points_per_side=12,  #32
+        points_per_side=32,  #32
         pred_iou_thresh=0.86,
         stability_score_thresh=0.92,
         crop_n_layers=1,
@@ -184,7 +184,7 @@ def main(round, test=False):
         activation='sigmoid'
     )
     # Load the saved model weights
-    model_path = "PedVisionCode/saved_models/roi_model_R"+str(round)+".pth"
+    model_path = "PedVisionCode/saved_models/ROI_model_R"+str(round)+".pth"
     model_ROI.load_state_dict(torch.load(model_path))
     model_ROI.eval()  # Set the model to evaluation mode
 
