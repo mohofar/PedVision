@@ -191,7 +191,9 @@ def main(round, test=False):
     # # Create a grid to display the images
     # images_folder = "PedVisionCode/classifier_samples/images/train/"
     # results_folder = "PedVisionCode/classifier_samples/masks/train/"
-    for image_filename in tqdm(os.listdir(images_folder)):
+    images_list = [file for file in os.listdir(images_folder) if file.lower().endswith(('.jpg', '.jpeg', 'png'))]
+
+    for image_filename in tqdm(images_list):
         mask_filename = f"org_mask_{image_filename[:-4]}.pkl"
         if os.path.exists(os.path.join(results_folder, mask_filename)):
             print(f"Skipping {image_filename} as it already exists in the results folder")
