@@ -2,7 +2,7 @@
 
 This is the official code repository for the paper "Object Level Segmentation for Overcoming Data Scarcity and Variability of Pediatric Images Using Centralized Visual Foundation Model". A short video tutorial is also available to help you follow the steps. The image below outlines the pipeline (see the paper for more details), and we will walk you through the code for each part in the sections below.
 
-![pipeline](https://github.com/mohofar/PedVision/blob/main/git_images/Pipeline.svg)
+![pipeline](https://github.com/mohofar/PedVision/blob/main/git_images/figure_pipeline.pdf)
 
 ## Table of Contents
 1. [Dependencies Installation](#dependencies-installation)
