@@ -151,7 +151,12 @@ def get_masks(main_path, image_name, mask_generator, model_ROI):
     return [y_min, y_max, x_min, x_max], original_croped_shape, masks_masked, image2
 
 
-def main(round, images_folder = "PedVisionCode/classifier_samples/images/train/", results_folder = "PedVisionCode/classifier_samples/masks/train/"):
+def main(round, test=False):
+    images_folder = "PedVisionCode/classifier_samples/images/train/"
+    results_folder = "PedVisionCode/classifier_samples/masks/train/"
+    if test==True:
+        images_folder = "PedVisionCode/test_data/input"
+        results_folder = "PedVisionCode/test_data/predicted/VFM"
 
     sam_checkpoint = "PedVisionCode/saved_models/sam_vit_h_4b8939.pth"
     model_type = "vit_h"
