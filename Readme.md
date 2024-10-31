@@ -39,9 +39,9 @@ python PedVisionCode/main.py --foldering y
    Download and place the trained weights in the `PedVisionCode/saved_models` folder.
    | Model | Weights |
    |-------|---------|
-   | VFM#1 (SAM ViT_h) | [Download]([https://drive.google.com/file/d/1wo75Nv-FrvFtIpm1VeHQTszVrp_inTkL/view?usp=drive_link]](https://tud365-my.sharepoint.com/:u:/r/personal/mhomayounfar_tudelft_nl/Documents/saved_weights_pedvision/CLS_model_R11.pth?csf=1&web=1&e=vps48D))|
-   | ROI model (last Round) | [Download]([https://drive.google.com/file/d/1qMhAg1cy0s1gJpYOeZWSqvxYraRTTQW-/view?usp=drive_link](https://tud365-my.sharepoint.com/:u:/r/personal/mhomayounfar_tudelft_nl/Documents/saved_weights_pedvision/ROI_model_R11.pth?csf=1&web=1&e=CS5geX)) |
-   | CLS model (last Round) | [Download]([https://drive.google.com/file/d/18C3TWfHlCUdBm4cRxUdLij52cJoEZlf6/view?usp=drive_link](https://tud365-my.sharepoint.com/:u:/r/personal/mhomayounfar_tudelft_nl/Documents/saved_weights_pedvision/CLS_model_R11.pth?csf=1&web=1&e=vps48D)) |
+   | VFM#1 (SAM ViT_h) | [Download](https://dl.fbaipublicfiles.com/segment_anything/sam_vit_h_4b8939.pth)|
+   | ROI model (last Round) | [Download](https://tud365-my.sharepoint.com/:u:/r/personal/mhomayounfar_tudelft_nl/Documents/saved_weights_pedvision/ROI_model_R11.pth?csf=1&web=1&e=qa1OfG) |
+   | CLS model (last Round) | [Download](https://tud365-my.sharepoint.com/:u:/r/personal/mhomayounfar_tudelft_nl/Documents/saved_weights_pedvision/CLS_model_R11.pth?csf=1&web=1&e=vKa7Md) |
 
 ### Step 2: First Round Annotation and Training 
 1. **Image Sampling:**
