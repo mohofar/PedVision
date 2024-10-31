@@ -17,6 +17,7 @@ Follow the following steps to install all dependencies!
 conda create -n pedvision_env python=3.10.12 
 conda activate pedvision_env
 git clone https://github.com/mohofar/PedVision.git
+cd PedVision
 conda install pytorch==2.3.1 torchvision==0.18.1 torchaudio==2.3.1 pytorch-cuda=12.1 -c pytorch -c nvidia
 pip install -r requirements.txt
 ```
