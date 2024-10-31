@@ -40,7 +40,7 @@ python PedVisionCode/main.py --foldering y
    | ROI model (last Round) | [Download](https://drive.google.com/file/d/1K0PphrPPlv3mmlW1dIVcqhA2V8ZyVe5u/view?usp=drive_link) |
    | CLS model (last Round) | [Download](https://drive.google.com/file/d/17q_-KDSkWPPItRgj9a-knF82-ZiFXUcQ/view?usp=drive_link) |
 ```
-python PedVisionCode/main.py --test_model y --round 11 --num_classes 5  --img_name 1512 --CLS_model_name EffiB52
+python PedVisionCode/main.py --test_model y --round 11 --num_classes 5  --img_name 1512 --CLS_model_name EffiB5
 ```
 **Note**: The pipeline will prepare the masks of all images in the test folder in the first run.
 ## Training the pipeline
