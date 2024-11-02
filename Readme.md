@@ -1,6 +1,10 @@
 # PedVision
 
-This is the official code repository for the paper "PedVision: Integrating human-in-the-loop with visual foundation models for age-agnostic pediatric hand bone segmentation". The image below outlines the pipeline (see the paper for more details), and we will walk you through the code for each part in the sections below.
+This is the official code repository for the paper "PedVision: Integrating human-in-the-loop with visual foundation models for age-agnostic pediatric hand bone segmentation". The image below outlines the pipeline (s: ee the paper for more details), and we will walk you through the code for each part in the sections below.
+
+> [!NOTE]
+> - Open this link in a new tab to see toturial on YouTube for test part: [PedVision test](https://youtu.be/hi7YJ2_5c7U?si=YMx7D0kBZptvXszS)
+> - Training toturial will be avaliable soon.
 
 ![pipeline](https://github.com/mohofar/PedVision/blob/main/git_images/pipeline_.png)
 
