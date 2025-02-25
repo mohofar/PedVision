@@ -33,6 +33,12 @@ def main():
     parser.add_argument('--fine_tune', type=str, default='n', help='Fine-tune the models (y/n)')
     parser.add_argument('--test_model', type=str, default='n', help='Test classifier model (y/n)')
     parser.add_argument('--img_name', type=str, help='Image name for testing')
+    parser.add_argument('--points_per_side', type=int, default=32, help='VFM param: points_per_side')
+    parser.add_argument('--pred_iou_thresh', type=float, default=0.86, help='VFM param: pred_iou_thresh')
+    parser.add_argument('--crop_n_layers', type=int, default=1, help='VFM param: crop_n_layers')
+    parser.add_argument('--stability_score_thresh', type=float, default=0.92, help='VFM param: stability_score_thresh')
+
+
     args = parser.parse_args()
 
     # Execute functions based on arguments
@@ -71,7 +77,12 @@ def main():
 
     if args.test_model == 'y':
         print('Testing model...')
-        VFM.main(round=args.round, case_name=args.img_name, test=True)
+        VFM.main(round=args.round, case_name=args.img_name, 
+        points_per_side=args.points_per_side,
+        pred_iou_thresh=args.pred_iou_thresh,
+        crop_n_layers=args.crop_n_layers,
+        stability_score_thresh=args.stability_score_thresh,
+        test=True)
         test_cls_model.main(rounds=args.round, cls_num=args.num_classes, model_name=args.CLS_model_name, img_name=args.img_name, num_classes=args.num_classes)
 
 if __name__ == "__main__":

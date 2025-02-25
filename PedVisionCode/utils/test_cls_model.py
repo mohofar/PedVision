@@ -52,16 +52,5 @@ def main(rounds, cls_num, model_name, img_name, num_classes):
     # Predict class for each mask
     cls_model_path = f'PedVisionCode/saved_models/CLS_model_R{rounds}.pth'
     prediction = load_model_and_predict(test_images, model_name, cls_model_path, cls_num)
-
-    # Display each class's mask
-    for bone in range(cls_num):
-        overall_mask = np.zeros(masks[0]['segmentation'].shape)
-        for i, pred in enumerate(prediction):
-            if pred.item() == bone:
-                overall_mask += masks[i]['segmentation']
-
-        plt.subplot(1, cls_num, bone + 1)
-        plt.imshow(overall_mask.astype(np.bool_), alpha=0.7)
-        plt.title(f'Class {bone}')
-
-    plt.show()
+    np.save(f"/content/PedVision/PedVisionCode/test_data/prepared/{img_name}.npy", prediction)
+    

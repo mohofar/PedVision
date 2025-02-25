@@ -57,8 +57,8 @@ class CustomDatasetTest(Dataset):
         image = Image.fromarray(image)
 
         if self.transform is not None:
-            image = self.transform(image)  
-            
+            image = self.transform(image)
+
         return image
 
 
@@ -127,7 +127,7 @@ def get_masks(main_path, image_name, model_ROI,mask_generator_2):
     hand_roi, _ = hand_prediction(main_path+image_name, model_ROI, show=False)
     #resize hand_roi to image shape
     hand_roi = resize(hand_roi, (image.shape[0], image.shape[1]),anti_aliasing=False)
-    # make it zero and one  
+    # make it zero and one
     hand_roi[hand_roi > 0.5] = 1
     hand_roi[hand_roi <= 0.5] = 0
     x_min, x_max, y_min, y_max = find_nonzero_boundaries(hand_roi)
@@ -141,7 +141,7 @@ def get_masks(main_path, image_name, model_ROI,mask_generator_2):
 
     return [y_min, y_max, x_min, x_max], original_croped_shape, masks_masked, image2
 
-def main(round, test=False):
+def main(round, case_name, points_per_side=32, pred_iou_thresh=0.86, crop_n_layers=1,stability_score_thresh=0.92, test=False):
     images_folder = "PedVisionCode/classifier_samples/images/train/"
     results_folder = "PedVisionCode/classifier_sampless/masks/train/"
     if test==True:
@@ -157,7 +157,7 @@ def main(round, test=False):
 
     mask_generator = SamAutomaticMaskGenerator(
         model=sam,
-        points_per_side=32,  #32
+        points_per_side=points_per_side,  #32
         pred_iou_thresh=0.86,
         stability_score_thresh=0.92,
         crop_n_layers=1,
@@ -179,19 +179,27 @@ def main(round, test=False):
     model_ROI.eval()  # Set the model to evaluation mode
 
     images_list = [file for file in os.listdir(images_folder) if file.lower().endswith(('.jpg', '.jpeg', 'png'))]
+    # find case_name in the list
+    comlete_case_name = []
+    for i in range(len(images_list)):
+        if case_name in images_list[i]:
+            comlete_case_name.append(images_list[i])
 
-    for image_filename in tqdm(images_list):
+    for image_filename in tqdm(comlete_case_name):
         mask_filename = f"org_mask_{image_filename[:-4]}.pkl"
-        if os.path.exists(os.path.join(results_folder, mask_filename)):
-            print(f"Skipping {image_filename} as it already exists in the results folder")
-            continue
+        # if os.path.exists(os.path.join(results_folder, mask_filename)):
+        #     print(f"Skipping {image_filename} as it already exists in the results folder")
+        #     continue
 
-        img = Image.open(os.path.join(images_folder, image_filename)) 
+        img = Image.open(os.path.join(images_folder, image_filename))
         img1 = np.array(img.convert('L'))  #convert a gray scale
         crop_limits, original_shape, masks, _ = get_masks(images_folder, image_filename, model_ROI,mask_generator)
         img1 = img1[crop_limits[0]:crop_limits[1], crop_limits[2]:crop_limits[3]]
         masks = remove_covered_seg(masks)
         final_masks = final_masks_preparing(masks, img1)
+        # add crop_limits
+        for i in range(len(masks)):
+            masks[i]['crop_box'] = crop_limits
         np.save(results_folder+'for_cls_net_'+f"{image_filename[:-4]}.npy",final_masks)
         with open(results_folder+'org_mask_'+f"{image_filename[:-4]}.pkl", 'wb') as f:
             pickle.dump(masks, f)
