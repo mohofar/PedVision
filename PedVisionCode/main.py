@@ -1,6 +1,10 @@
 import argparse
 import sys
-sys.path.append(r'C:\Users\HAG_M\Desktop\PedVision\PedVision')
+
+import warnings
+warnings.filterwarnings("ignore")
+
+sys.path.append(r'/content/PedVision')
 
 from PedVisionCode.utils import (
     foldering, sample_images, roi_annotation, train_roi_model, VFM,
@@ -67,7 +71,7 @@ def main():
 
     if args.test_model == 'y':
         print('Testing model...')
-        VFM.main(round=args.round, test=True)
+        VFM.main(round=args.round, case_name=args.img_name, test=True)
         test_cls_model.main(rounds=args.round, cls_num=args.num_classes, model_name=args.CLS_model_name, img_name=args.img_name, num_classes=args.num_classes)
 
 if __name__ == "__main__":
