@@ -58,12 +58,13 @@ class CustomTransformTest:
         return image
     
 
-def test_model(model, test_loader):
+def test_model(model, test_loader, device):
     model.eval()
     outputs = []
     names = []
     with torch.no_grad():
         for inputs, name in tqdm(test_loader):
+            inputs = inputs.to(device)
             output = model(inputs)
 
             # Convert the output to a NumPy array and append to the list
