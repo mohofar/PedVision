@@ -11,7 +11,6 @@ import matplotlib.pyplot as plt
 from tqdm import tqdm
 import segmentation_models_pytorch as smp
 
-
 class CustomDataset(Dataset):
     def __init__(self, image_dir, transform=None):
         self.image_dir = image_dir
@@ -38,8 +37,6 @@ class CustomDataset(Dataset):
 
         return image, os.path.basename(self.images[idx])
 
-
-
 class CustomTransformTest:
     def __init__(self):
         # Separate resize transforms for image and mask
@@ -56,8 +53,7 @@ class CustomTransformTest:
         image = self.to_grayscale(image)
 
         return image
-    
-
+   
 def test_model(model, test_loader, device):
     model.eval()
     outputs = []
@@ -165,7 +161,6 @@ def model_selection(model_name):
         model.load_state_dict(torch.load('/content/PedVision/PedVisionCode/saved_models/Segformer_mitb3.pth'))
 
     return model
-
 
 def img_show(image_dir, names, outputs, case_num):
     print(names[case_num])

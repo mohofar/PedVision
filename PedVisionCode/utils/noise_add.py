@@ -1,7 +1,8 @@
 import numpy as np
 import cv2
 import matplotlib.pyplot as plt
-
+import os
+import pickle
 
 def add_noise(image, noise_type, target_snr_percent):
     """
@@ -183,7 +184,6 @@ def show_noise_examples(image, noise_type, snr_levels):
     print(f"Lower SNR = More noise, Higher SNR = Less noise")
     print("=====================================================")
     
-# Example usage functions for convenience
 def quick_noise_demo(image, noise_type, light_heavy=True):
     """
     Quick demonstration with predefined light and heavy noise levels.
@@ -247,10 +247,6 @@ def compare_all_noise_types(image, snr_level=50):
     print(f"Compared all noise types at {snr_level}% SNR")
     print("Noise types: Gaussian, Salt & Pepper, Motion")
 
-import os
-import pickle
-import numpy as np
-import matplotlib.pyplot as plt
 def save_noise_image(image_path, save_path, noise_type, noise_levels, grayscale=True):
     """
     Generate and save noisy versions of an image.
@@ -389,4 +385,11 @@ def visualize_masks(img_path, cls_num=5):
         plt.axis('off')
 
     plt.tight_layout()
+    plt.show()
+
+def vis_image(img_name):
+    image_name1 = f'./PedVisionCode/test_data/input/{img_name}.jpg'
+    image1 = cv2.imread(image_name1)
+    plt.imshow(image1)
+    plt.axis('off')
     plt.show()
